@@ -1,15 +1,20 @@
 
 //quantity mutator
 
-public class Product {
+import java.io.Serializable;
 
-    public Product(String name, String ID, String prodType, double salePrice, String desc, int available){
+public class Product implements Serializable {
+
+    public Product(String name, String productID, String prodType, double salePrice,
+                   String desc, int available, double invPrice, String sellerId){
         this.availableQuantity = available;
         this.productDescription = desc;
         this.productName = name;
-        this.id = ID;
+        this.productId = productID;
         this.sellPrice = salePrice;
         this.type = prodType;
+        this.invoicePrice = invPrice;
+        this.sellerID = sellerId;
     }
 
     public Product getProduct(){
@@ -24,8 +29,8 @@ public class Product {
         return productName;
     }
 
-    public String getID(){
-        return this.id;
+    public String getProductID(){
+        return this.productId;
     }
     public String getSellerID(){
         return this.sellerID;
@@ -39,10 +44,14 @@ public class Product {
         return sellPrice;
     }
 
+    public String getType(){
+        return type;
+    }
+
     private String productDescription;
     private String productName;
     private int availableQuantity;
-    private String id;
+    private String productId;
     private double sellPrice;
     private double invoicePrice;
     private String type;

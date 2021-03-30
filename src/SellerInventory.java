@@ -1,9 +1,10 @@
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-public class SellerInventory  implements Serializable {
+import java.util.Observable;
+public class SellerInventory extends Observable implements Serializable {
 
     public SellerInventory(String mySellerID) throws IOException, ClassNotFoundException {
 
@@ -14,6 +15,8 @@ public class SellerInventory  implements Serializable {
 
     public void calculateCosts() {
         inventory.forEach(Product->this.costs = costs + Product.getInvoicePrice());
+        setChanged();
+        notifyObservers(costs);
     }
 
     public void calculateRevenue() {
@@ -40,8 +43,8 @@ public class SellerInventory  implements Serializable {
         return inventory;
     }
 
-    public void addChangeListener() {
-        ChangeEvent event = new ChangeEvent(this);
+    public void addChangeListener() { //SellerFinancialView sfv (add jpanel)
+        //listeners.add(sfv)
 
     }
 
