@@ -22,11 +22,19 @@ public class Product implements Serializable {
     }
 
     public int getAvailableQuantity(){
-        return availableQuantity;
+
+        //System.out.println("available: " + this.availableQuantity);
+        return this.availableQuantity;
     }
 
     public String getProductName(){
         return productName;
+    }
+
+    public void setAvailableQuantity(int quantity){
+
+        this.availableQuantity = quantity;
+
     }
 
     public String getProductID(){
