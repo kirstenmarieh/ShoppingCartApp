@@ -29,17 +29,17 @@ public class LoginWindow implements Observer{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //UserDB verify = new UserDB();
+                UserDB verify = new UserDB();
                 System.out.println(userName.getText());
                 System.out.println(passwordField.getText());
                 System.out.println(passwordField.getText().getClass());
-               // boolean b = verify.verifyLogin(userName.getText(), passwordField.getText());
-               // System.out.println(b);
-               // if (b)
-               // {
-               //     System.out.println("hello");
-                //    SellerInventoryWindow sPage = new SellerInventoryWindow();
-              //  }
+                int b = verify.verifyLogin(userName.getText(), passwordField.getText());
+                System.out.println(b);
+                if (b==1)
+                {
+                     System.out.println("successful login");
+                     //SellerInventoryWindow sPage = new SellerInventoryWindow();
+                }
                 //else pop up window error or something
             }
         });
