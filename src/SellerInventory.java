@@ -1,37 +1,34 @@
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Observable;
-import javax.swing.JLabel;
 
-
-public class SellerInventory extends Observable implements Serializable {
+public class SellerInventory implements Serializable {
 
     public SellerInventory(String mySellerID) throws IOException, ClassNotFoundException {
-       // addObserver(s);
+        // addObserver(s);
         this.sellerID = mySellerID;
         this.singleton = SingletonProductList.getInstance();
         this.inventory = singleton.getList(sellerID);
         listeners = new ArrayList<>();
+        this.calculateCosts();
+        this.calculateRevenue();
+        this.calculateProfits();
     }
 
     public void calculateCosts() {
 
-        //ChangeEvent event = new ChangeEvent(this);
-          //  for(SellerFinancialView n : listeners)
-        //{
-          //  n.stateChanged(event);
-            //listeners.remove(n);
-        //}
-
         inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAvailableQuantity()));
 
-        setChanged();
-        notifyObservers();
-        clearChanged();
-        //notifyObservers();
+        ChangeEvent event = new ChangeEvent(this);
+
+        System.out.println(listeners.size());
+        for(SellerFinancialView n : listeners)
+        {
+
+            n.stateChanged(event);
+
+        }
     }
 
     public void calculateRevenue() {
@@ -59,7 +56,7 @@ public class SellerInventory extends Observable implements Serializable {
         ArrayList<Product> myStuff = new ArrayList<>();
         myStuff = pList.getList(sellerID);
         return myStuff;
-        //return inventory;
+
     }
 
     public void updateQuantity(String productID, int count){
@@ -75,7 +72,6 @@ public class SellerInventory extends Observable implements Serializable {
                     p.setAvailableQuantity(currentQuantity--);
                     System.out.println(p.getAvailableQuantity());
 
-                   // this.inventory.add(p);
                 }
 
                 else{
@@ -86,9 +82,8 @@ public class SellerInventory extends Observable implements Serializable {
 
     }
 
-    public void addChangeListener() { //SellerFinancialView sfv (add jpanel)
-        //listeners.add(sfv)
-
+    public void addChangeListener(SellerFinancialView sfv) { //SellerFinancialView sfv (add jpanel)
+        listeners.add(sfv);
     }
 
     private ArrayList<Product> inventory = new ArrayList<>();
@@ -99,4 +94,3 @@ public class SellerInventory extends Observable implements Serializable {
     private SingletonProductList singleton;
     private ArrayList<SellerFinancialView> listeners;
 
-}
