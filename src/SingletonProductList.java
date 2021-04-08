@@ -1,4 +1,4 @@
-
+package project;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,20 +7,21 @@ import java.util.Iterator;
 public class SingletonProductList implements Serializable {
 
     private SingletonProductList() throws IOException, ClassNotFoundException {
+        /*
         FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.productList);
         oos.flush();
         oos.close();
         fos.close();
-
+*/
         FileInputStream fis = new FileInputStream("globalproductlist.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
         productList = (ArrayList<Product>) ois.readObject();
-      //  for(Product p : productList)
-      //  {
-      //      System.out.println(p.getProductName());
-      //  }
+        for(Product p : productList)
+        {
+            System.out.println(p.getProductName());
+        }
     }
 
     public static SingletonProductList getInstance() throws IOException, ClassNotFoundException {//SingletonProductList
@@ -70,7 +71,7 @@ public class SingletonProductList implements Serializable {
     public void saveList(ArrayList<Product> productList) throws IOException {
         FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this);
+        oos.writeObject(this.productList);
         oos.flush();
         oos.close();
         fos.close();
