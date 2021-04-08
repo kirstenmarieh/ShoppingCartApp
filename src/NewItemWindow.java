@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NewItemWindow {
+public class NewItemWindow extends JFrame{
 
-    public NewItemWindow(String sellerID, SellerFinancialView sfv) throws IOException, ClassNotFoundException {
+    public NewItemWindow(String sellerID, SellerFinancialView sfv)  throws IOException, ClassNotFoundException {
         this.sellerid = sellerID;
         this.sView = sfv;
 
@@ -63,7 +63,7 @@ public class NewItemWindow {
         JButton submitButton = new JButton("Submit");
 
         SellerInventory inventory = new SellerInventory(sellerid);
-        System.out.println(inventory.getCosts());
+        //System.out.println(inventory.getCosts());
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -77,10 +77,19 @@ public class NewItemWindow {
                             available, invPrice, sellerid);
 
                     spl.add(newProduct);
-                    myInventory = spl.getList(sellerid);
+                    spl.saveList(spl.getList(sellerid));
 
+
+                    //SellerFinancialView newView = new SellerFinancialView();
                     inventory.addChangeListener(sView);
                     inventory.calculateCosts();
+                    //inventory.
+                    //ProductPanel newPanel = new ProductPanel(sellerid);
+
+                    //add(newPanel);
+                    //SellerInventoryWindow newWindow = new SellerInventoryWindow(sellerid);
+
+
 
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

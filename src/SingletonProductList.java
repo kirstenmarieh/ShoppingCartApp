@@ -1,3 +1,5 @@
+
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -5,15 +7,20 @@ import java.util.Iterator;
 public class SingletonProductList implements Serializable {
 
     private SingletonProductList() throws IOException, ClassNotFoundException {
-        FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
+        /*FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.productList);
         oos.flush();
         oos.close();
+        fos.close();
 
         FileInputStream fis = new FileInputStream("globalproductlist.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        productList = (ArrayList<Product>) ois.readObject();
+        productList = (ArrayList<Product>) ois.readObject();*/
+      //  for(Product p : productList)
+      //  {
+      //      System.out.println(p.getProductName());
+      //  }
     }
 
     public static SingletonProductList getInstance() throws IOException, ClassNotFoundException {//SingletonProductList
@@ -21,6 +28,10 @@ public class SingletonProductList implements Serializable {
             instance = new SingletonProductList();
         }
         return instance;
+    }
+
+    public Object readResolve() throws IOException, ClassNotFoundException {
+        return getInstance();
     }
 
     public void add(Product p) throws IOException {
@@ -35,14 +46,15 @@ public class SingletonProductList implements Serializable {
     public void updateQuantity(String productID, int count) throws IOException {
 
         for (Product p : productList) {
-            //System.out.println(p.getProductID());
+
             if (productID.equals(p.getProductID())) {
 
                 int currentQuantity = p.getAvailableQuantity();
 
                 if (count < 0) {
-                    System.out.println("dec: " + currentQuantity--);
-                    p.setAvailableQuantity(currentQuantity--);
+                    if (currentQuantity > 0)
+                    {System.out.println("dec: " + currentQuantity--);
+                    p.setAvailableQuantity(currentQuantity--);}
 
                 } else {
                     System.out.println("inc: " + currentQuantity++);
@@ -51,9 +63,9 @@ public class SingletonProductList implements Serializable {
                 }
             }
         }
-        for (Product p : productList) {
-            System.out.println(p.getAvailableQuantity());
-        }
+       // for (Product p : productList) {
+       //     System.out.println(p.getAvailableQuantity());
+      //  }
         this.saveList(this.productList);
     }
 
@@ -63,13 +75,22 @@ public class SingletonProductList implements Serializable {
         oos.writeObject(this);
         oos.flush();
         oos.close();
+        fos.close();
     }
 
-    public Iterator<Product> getMyList(String userID) {
+    public Iterator<Product> getWholeList() {
         return new Iterator<Product>() {
             @Override
             public boolean hasNext() {
                 return current < productList.size();
+            }
+
+            public Product previous(){
+                return productList.get(current--);
+            }
+
+            public Product currentItem(){
+                return productList.get(current);
             }
 
             @Override
@@ -86,20 +107,41 @@ public class SingletonProductList implements Serializable {
         FileInputStream fis = new FileInputStream("globalproductlist.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
         SingletonProductList singleton = (SingletonProductList) ois.readObject();
+        ois.close();
+       // System.out.println(singleton);
+        //pList = (ArrayList<Product>) ois.readObject();
+        //singleton.getList(userID);
+       // System.out.println(singleton.productList);
+       // for(Product p : pList)
+       // {
+       ////     System.out.println(p.getProductName());
+      //  }
 
-        System.out.println(singleton.productList);
+
+        //singleton = (SingletonProductList) ois.readObject();
+
+        // ArrayList<Product> singleton = (ArrayList<Product>) ois.readObject();
+//        SingletonProductList singleton =  (SingletonProductList) ois.readObject();
+
+        //System.out.println("S" + singleton);
+
+        //for(Product p : singleton)
+        //{
+          //  System.out.println(p.getProductName());
+        //}
 
         ArrayList<Product> personalProductList = new ArrayList<>();
-        for (Product p : singleton.productList) {
+        for (Product p : singleton.productList)//.getList(userID)) { Product p:singleton
             if (p.getSellerID().equals(userID)) {
                 personalProductList.add(p);
             }
-        }
-        System.out.println(personalProductList);
+        ois.close();
+       // System.out.println(personalProductList);
         return personalProductList;
     }
 
     private static SingletonProductList instance = null;
     private ArrayList<Product> productList = new ArrayList<>();
     private ArrayList<Product> pList = new ArrayList<>();
+    //static SingletonProductList singleton = null;
 }

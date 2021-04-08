@@ -1,10 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Observable;
-import java.util.Observer;
+import java.io.IOException;
 
-public class LoginWindow implements Observer{
+public class LoginWindow{
 
     public LoginWindow() {
 
@@ -16,9 +15,10 @@ public class LoginWindow implements Observer{
         JButton submit = new JButton("Submit");
         JLabel nameLabel = new JLabel("Username: ");
         JTextField userName = new JTextField(1);
-
+       // /userName.setBounds(0,0,50,50);
         JLabel pWordLabel = new JLabel("Password: ");
         JTextField passwordField = new JTextField(1);
+
 
         loginWindow.add(nameLabel);
         loginWindow.add(userName);
@@ -30,17 +30,39 @@ public class LoginWindow implements Observer{
             @Override
             public void actionPerformed(ActionEvent e) {
                 UserDB verify = new UserDB();
-                System.out.println(userName.getText());
-                System.out.println(passwordField.getText());
-                System.out.println(passwordField.getText().getClass());
-                int b = verify.verifyLogin(userName.getText(), passwordField.getText());
-                System.out.println(b);
-                if (b==1)
+                //System.out.println(userName.getText());
+               // System.out.println(passwordField.getText());
+               // System.out.println(passwordField.getText().getClass());
+                String b = verify.verifyLogin(userName.getText(), passwordField.getText());
+                System.out.println("b" + b);
+                if (b!=null)
                 {
-                     System.out.println("successful login");
-                     //SellerInventoryWindow sPage = new SellerInventoryWindow();
+                    if (b.endsWith("s"))
+                    {System.out.println("successful login");
+                    try {
+                        SellerInventoryWindow sPage = new SellerInventoryWindow(b);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
                 }
-                //else pop up window error or something
+                else if (b.endsWith("b"))
+                {
+                    System.out.println("ends with b");
+                    try {
+                        BrowseWindow buyerWindow = new BrowseWindow(b);
+                        ShoppingCart myCart = new ShoppingCart(b);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+
+                }}
+                else{
+                    JOptionPane.showMessageDialog(new JFrame(), "Invalid Login");
+                }
             }
         });
         loginWindow.add(submit);
@@ -49,9 +71,8 @@ public class LoginWindow implements Observer{
         loginWindow.setVisible(true);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
 
-    }
+
+    private String userID;
 
 }
