@@ -8,32 +8,47 @@ public class LoginWindow{
     public LoginWindow() {
 
         final JFrame loginWindow = new JFrame("Login");
-        loginWindow.setLayout(new GridLayout());
-        JLabel label = new JLabel("I'm a...");
-        JPanel panel = new JPanel(new BorderLayout());
+        loginWindow.getContentPane().setLayout(new BoxLayout(loginWindow.getContentPane(), BoxLayout.Y_AXIS));
+        //JLabel label = new JLabel("I'm a...");
+        JPanel panel = new JPanel();
 
+        
+        JLabel usernameLabel = new JLabel("Username: ");
+        JTextField usernameField = new JTextField(0);
+        usernameField.setPreferredSize(new Dimension(400,20));
+        usernameField.setMaximumSize( usernameField.getPreferredSize() );
+        //userName.setBounds(0,0,50,50);
+        JLabel passwordLabel = new JLabel("Password: ");
+        JTextField passwordField = new JTextField(0);
+        passwordField.setPreferredSize(new Dimension(400,20));
+        passwordField.setMaximumSize(passwordField.getPreferredSize() );
+        
+        
+        JPanel usernamePanel= new JPanel();
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.X_AXIS));
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(usernameField);
+        
+        JPanel passwordPanel= new JPanel();
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.X_AXIS));
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordField);
+        
+        loginWindow.add(usernamePanel);
+        JPanel buffer= new JPanel();
+        buffer.setPreferredSize(new Dimension(4,2));
+        loginWindow.add(buffer);
+        loginWindow.add(passwordPanel);
+        loginWindow.getContentPane().add(panel);
+        
+        
         JButton submit = new JButton("Submit");
-        JLabel nameLabel = new JLabel("Username: ");
-        JTextField userName = new JTextField(1);
-       // /userName.setBounds(0,0,50,50);
-        JLabel pWordLabel = new JLabel("Password: ");
-        JTextField passwordField = new JTextField(1);
-
-
-        loginWindow.add(nameLabel);
-        loginWindow.add(userName);
-        loginWindow.add(pWordLabel);
-        loginWindow.add(passwordField);
-
         submit.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 UserDB verify = new UserDB();
-                //System.out.println(userName.getText());
-               // System.out.println(passwordField.getText());
-               // System.out.println(passwordField.getText().getClass());
-                String b = verify.verifyLogin(userName.getText(), passwordField.getText());
+                String b = verify.verifyLogin(usernameField.getText(), passwordField.getText());
                 System.out.println("b" + b);
                 if (b!=null)
                 {
@@ -52,7 +67,7 @@ public class LoginWindow{
                     System.out.println("ends with b");
                     try {
                         BrowseWindow buyerWindow = new BrowseWindow(b);
-                        ShoppingCart myCart = new ShoppingCart(b);
+                        //ShoppingCart myCart = new ShoppingCart(b);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {
@@ -66,8 +81,8 @@ public class LoginWindow{
             }
         });
         loginWindow.add(submit);
-        loginWindow.setSize(300, 300);
-        loginWindow.getContentPane().add(panel);
+        loginWindow.setSize(455, 150);
+        loginWindow.setResizable(false);
         loginWindow.setVisible(true);
     }
 
