@@ -44,7 +44,7 @@ public class BrowseWindow extends Observable
 
         SingletonProductList singleton = SingletonProductList.getInstance();
         //productList = singleton.getList();
-        Iterator<Product> listIter = singleton.getWholeList();
+        Iterator<Product> listIter = singleton.getProductList().iterator();
 
         while(listIter.hasNext())
         {
