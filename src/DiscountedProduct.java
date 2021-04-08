@@ -1,4 +1,3 @@
-
 public class DiscountedProduct extends Product{
     public DiscountedProduct(String name, String productID, String prodType, double salePrice, String desc,
                              int available, double invPrice, String sellerId, Product p) {

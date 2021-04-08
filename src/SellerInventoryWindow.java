@@ -16,10 +16,11 @@ public class SellerInventoryWindow extends JFrame{
 
         SellerInventory myInventory = new SellerInventory(sellerid);
         myProducts = myInventory.getInventory();
-
+        this.sellerid = SellerID;
         final JFrame frame = new JFrame("Inventory");
         frame.setBounds(100, 100, 800, 550);
 
+        //ProductPanel pPanel = new ProductPanel(sellerid);
 
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
@@ -29,6 +30,8 @@ public class SellerInventoryWindow extends JFrame{
 
         JLabel inventoryLabel = new JLabel("Current Inventory");
         frame.add(inventoryLabel);
+
+        //ProductPanel pPanel = new ProductPanel(sellerid);
 
         JPanel productPanel = new JPanel(); //where other panels will go
         productPanel.setSize(475, 300);
@@ -133,19 +136,33 @@ public class SellerInventoryWindow extends JFrame{
             productPanel.add(newProduct);
         }
 
-        JScrollPane productPane = new JScrollPane(productPanel);
+        JScrollPane productPane = new JScrollPane(productPanel);//productPanel);
         productPane.setPreferredSize(new Dimension(700,400));
         productPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         productPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         frame.getContentPane().add(productPane);
         frame.getContentPane().add(newFV);
-        productPane.setVisible(true);
+        //productPane.setVisible(true);
+
+        JButton updateButton = new JButton("update");
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    productPanel.repaint();
+
+
+
+
+            }
+        });
+
         frame.setVisible(true);
     }
 
     private ArrayList<JPanel> products = new ArrayList<>();
     private ArrayList<Product> myProducts = new ArrayList<>();
     private String sellerid;
+    private ArrayList<Product> newInventory = new ArrayList<>();
     private final ArrayList<Product> updatedInventory = new ArrayList<>();
 }
