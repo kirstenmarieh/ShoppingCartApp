@@ -44,7 +44,7 @@ public class BrowseWindow extends Observable
 
         SingletonProductList singleton = SingletonProductList.getInstance();
         //productList = singleton.getList();
-        Iterator<Product> listIter = singleton.getWholeList();
+        Iterator<Product> listIter = singleton.getProductList().iterator();
 
         while(listIter.hasNext())
         {
@@ -68,6 +68,10 @@ public class BrowseWindow extends Observable
 
             JButton viewProductButton = new JButton(productList.get(i).getProductName());
             viewProductButton.setBounds(50, 0, 150, 50);
+            final int j=i; //I feel dirty for doing this but I don't want to deal with it
+            viewProductButton.addActionListener(e -> {
+            	new ProductPopupWindow(productList.get(j));
+            });
             rowPanel.add(viewProductButton);
 
             // Add To Cart Button - Needs Event Listener
