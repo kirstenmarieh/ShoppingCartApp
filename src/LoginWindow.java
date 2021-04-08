@@ -56,6 +56,7 @@ public class LoginWindow{
                     {System.out.println("successful login");
                     try {
                         SellerInventoryWindow sPage = new SellerInventoryWindow(b);
+                        
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {
