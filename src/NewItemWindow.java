@@ -79,17 +79,8 @@ public class NewItemWindow extends JFrame{
                     spl.add(newProduct);
                     spl.saveList(spl.getList(sellerid));
 
-
-                    //SellerFinancialView newView = new SellerFinancialView();
                     inventory.addChangeListener(sView);
                     inventory.calculateCosts();
-                    //inventory.
-                    //ProductPanel newPanel = new ProductPanel(sellerid);
-
-                    //add(newPanel);
-                    //SellerInventoryWindow newWindow = new SellerInventoryWindow(sellerid);
-
-
 
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -101,20 +92,10 @@ public class NewItemWindow extends JFrame{
         });
 
         frame.add(submitButton, BorderLayout.SOUTH);
-
-
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    private String name;
-    private String productID;
-    private String prodType;
-    private double salePrice;
-    private String desc;
-    private int available;
-    private double invPrice;
-    private ArrayList<Product> myInventory = new ArrayList<>();
     private String sellerid;
     final SellerFinancialView sView;
 }

@@ -1,19 +1,28 @@
-
 import java.util.Iterator;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
+
 import java.util.ArrayList;
 
 
-public class BrowseWindow extends Observable
+public class BrowseWindow
 {
 
-    public BrowseWindow(String buyerID) throws IOException, ClassNotFoundException {
-        this.buyerid = buyerID;
+    public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
+        this.userid = userID;
+        this.myFavorites = new FavoritesList(userid);
+        this.myCart = new ShoppingCart(userid);
+        this.myFaveList = myFavorites.getFaves();
+        this.myCartContents = myCart.getCartContents();
+
+        for(Product p : myCartContents)
+        {
+            System.out.println("cart: " + p.getProductName());
+        }
+        myCart.calculateTotalPrice();
+        System.out.println("tot price: " + myCart.getTotalPrice());
 
         final JFrame browseWindow = new JFrame("Browse Products");
         browseWindow.setBounds(100, 100, 800, 550);
@@ -51,16 +60,8 @@ public class BrowseWindow extends Observable
             productList.add(listIter.next());
         }
 
-        for(Product p : productList)
-        {
-            System.out.println(p.getProductName());
-        }
-
-
-
         for (int i = 0; i < productList.size(); i++)
         {
-
             JPanel rowPanel = new JPanel();
             rowPanel.setPreferredSize(new Dimension(300, 200));
             columnPanel.add(rowPanel);
@@ -70,19 +71,57 @@ public class BrowseWindow extends Observable
             viewProductButton.setBounds(50, 0, 150, 50);
             final int j=i; //I feel dirty for doing this but I don't want to deal with it
             viewProductButton.addActionListener(e -> {
-            	new ProductPopupWindow(productList.get(j));
+                new ProductPopupWindow(productList.get(j));
             });
             rowPanel.add(viewProductButton);
 
-            // Add To Cart Button - Needs Event Listener
+            // Add To Cart Button
             JButton addToCartButton = new JButton("Add To Cart");
             addToCartButton.setBounds(600, 0, 100, 50);
+            addToCartButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        myCart.addItem(productList.get(j));
+                        myCart.calculateTotalPrice();
+                        System.out.println("price: " + myCart.getTotalPrice());
+                        for(Product p: myCart.getCartContents())
+                        {
+                            System.out.println("in cart: " + p.getProductName());
+                        }
+                    } catch (IOException | ClassNotFoundException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
             rowPanel.add(addToCartButton);
-            addListenerForAddToCart(addToCartButton, productList.get(i));//productList.get(i));
+
+            //addListenerForAddToCart(addToCartButton, productList.get(i));//productList.get(i));
 
             // Add To Favorite List - Needs Event Listener
             JButton addToFavButton = new JButton("Add To Favorites");
             addToFavButton.setBounds(575, 100, 150, 50);
+            addToFavButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        myFavorites.addFave(productList.get(j));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+
+                    try {
+                        for(Product p: myFavorites.getFaves())
+                        {
+                            System.out.println("in faves: " + p.getProductName());
+                        }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                }
+            });
             rowPanel.add(addToFavButton);
             //addListenerForAddToFav(addToFavButton, listIter.next());//productList.get(i));
 
@@ -95,34 +134,15 @@ public class BrowseWindow extends Observable
             JLabel productDescription = new JLabel("<html>" + productList.get(i).getProductDescription() + "</html>");//productList.get(i).getProductDescription()
             productDescription.setBounds(50, 40, 500, 200);
             rowPanel.add(productDescription);
-
         }
 
         browseWindow.setVisible(true);
     }
 
-
-    public void addListenerForAddToCart(JButton button, Product product)
-    {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                System.out.println("Adding To Cart: " + product.getProductName());
-            }
-        });
-    }
-
-    public void addListenerForAddToFav(JButton button, Product product)
-    {
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                System.out.println("Adding To Favorites: " + product.getProductName());
-            }
-        });
-    }
-    private String buyerid;
+    private String userid;
     private ArrayList<Product> productList = new ArrayList<>();
+    private ShoppingCart myCart;
+    private FavoritesList myFavorites;
+    private ArrayList<Product> myCartContents = new ArrayList<>();
+    private ArrayList<Product> myFaveList = new ArrayList<>();
 }
