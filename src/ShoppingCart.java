@@ -17,16 +17,20 @@ public class ShoppingCart implements Serializable{
     }
 
     public void addItem(Product p) throws IOException {
-        this.cartContents.add(p);
-        this.saveCart();
+        cartContents.add(p);
+        saveCart();
     }
 
     public ArrayList<Product> getCartContents() throws IOException, ClassNotFoundException {
         try {
             //String fileName = userid + ".txt";
-            FileInputStream fis = new FileInputStream("3b.txt");//fileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            this.cartContents = (ArrayList<Product>) ois.readObject();
+        	String fileName=userid+".txt";
+        	File file=new File(fileName);
+        	if(file.exists()) {
+	            FileInputStream fis = new FileInputStream(fileName);//fileName);
+	            ObjectInputStream ois = new ObjectInputStream(fis);
+	            cartContents = (ArrayList<Product>) ois.readObject();
+        	}
             return cartContents;
         }
         catch(EOFException e)
