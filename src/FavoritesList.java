@@ -24,9 +24,14 @@ public class FavoritesList implements Serializable {
     }
 
     public ArrayList<Product> getFaves() throws IOException, ClassNotFoundException {
-        FileInputStream fis = new FileInputStream("3b.txt");//fileName);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        this.faves = (ArrayList<Product>) ois.readObject();
+        String fileName=userid+".txt";
+    	File file=new File(fileName);
+    	System.out.println(fileName+"????");
+    	if(file.exists()) {
+	    	FileInputStream fis = new FileInputStream("3b.txt");//fileName);
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        this.faves = (ArrayList<Product>) ois.readObject();
+	    }
         return faves;
     }
 
