@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class BrowseWindow
 {
 
-    public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
+        public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;
         this.myFavorites = new FavoritesList(userid);
         this.myCart = new ShoppingCart(userid);
@@ -37,6 +37,11 @@ public class BrowseWindow
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
         browseWindow.add(checkoutButton);
+        
+        DecimalFormat df = new DecimalFormat("#.00");
+        JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
+        cartTotal.setBounds(640, 25, 150, 25);
+        browseWindow.add(cartTotal);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 75, 760, 400);
@@ -85,6 +90,8 @@ public class BrowseWindow
                         myCart.addItem(productList.get(j));
                         myCart.calculateTotalPrice();
                         System.out.println("price: " + myCart.getTotalPrice());
+                        cartTotal.setText("Total: $" + df.format(myCart.getTotalPrice()));
+                        
                         for(Product p: myCart.getCartContents())
                         {
                             System.out.println("in cart: " + p.getProductName());
