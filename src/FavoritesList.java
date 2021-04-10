@@ -8,6 +8,20 @@ public class FavoritesList implements Serializable {
     }
 
     public void addFave(Product p) throws IOException {
+        try { 
+            this.getFaves();
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        }
+        
+        for (Product i : faves){
+            if (p.getProductID().equals(i.getProductID()))
+            {
+                System.out.println("Product already in favorites");
+                return;
+            }
+        }
+        
         faves.add(p);
         this.saveFaveList();
     }
@@ -38,3 +52,4 @@ public class FavoritesList implements Serializable {
     private String userid;
     private ArrayList<Product> faves = new ArrayList<>();
 }
+
