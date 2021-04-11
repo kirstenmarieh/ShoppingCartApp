@@ -1,16 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
-public class CheckoutWindow{
+public class PaymentWindow {
 
-    public CheckoutWindow(String userid) {
+    public PaymentWindow(String userid) throws IOException, ClassNotFoundException {
 
         this.userID = userid;
+        this.myCart = new ShoppingCart(userID);
+        //double myTotal = myCart.getTotalPrice();
 
-        final JFrame checkoutWindow = new JFrame("Checkout");
-        checkoutWindow.getContentPane().setLayout(new BoxLayout(checkoutWindow.getContentPane(), BoxLayout.Y_AXIS));
+        final JFrame paymentWindow = new JFrame("Checkout");
+        paymentWindow.getContentPane().setLayout(new BoxLayout(paymentWindow.getContentPane(), BoxLayout.Y_AXIS));
 
         JPanel panel = new JPanel();
 
@@ -34,14 +38,23 @@ public class CheckoutWindow{
         secNumPanel.add(secNumLabel);
         secNumPanel.add(secNumField);
 
-        checkoutWindow.add(ccNumPanel);
+        paymentWindow.add(ccNumPanel);
         JPanel buffer= new JPanel();
         buffer.setPreferredSize(new Dimension(4,2));
-        checkoutWindow.add(buffer);
-        checkoutWindow.add(secNumPanel);
-        checkoutWindow.getContentPane().add(panel);
+        paymentWindow.add(buffer);
+        paymentWindow.add(secNumPanel);
+        paymentWindow.getContentPane().add(panel);
 
         JButton submit = new JButton("Confirm");
+
+        //upon checkout the cart must be emptied and the
+        //seller inventory and product list must be updated
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
         JButton cancel = new JButton("Cancel");
 
@@ -50,24 +63,24 @@ public class CheckoutWindow{
             public void actionPerformed(ActionEvent e) {
                 try {
                     BrowseWindow bw = new BrowseWindow(userID);
-                    checkoutWindow.setVisible(false);
-                    checkoutWindow.dispose();
+                    paymentWindow.setVisible(false);
+                    paymentWindow.dispose();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
-
             }
         });
 
-        checkoutWindow.add(cancel);
-        checkoutWindow.add(submit);
-        checkoutWindow.setSize(455, 150);
-        checkoutWindow.setResizable(false);
-        checkoutWindow.setVisible(true);
-        checkoutWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        paymentWindow.add(cancel);
+        paymentWindow.add(submit);
+        paymentWindow.setSize(455, 150);
+        paymentWindow.setResizable(false);
+        paymentWindow.setVisible(true);
+        paymentWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     private String userID;
+    ShoppingCart myCart;
 }
 
