@@ -3,13 +3,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-
 import java.util.ArrayList;
-
 
 public class BrowseWindow
 {
-
         public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;
         this.myFavorites = new FavoritesList(userid);
