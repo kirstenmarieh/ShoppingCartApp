@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class PaymentWindow {
 
@@ -11,7 +10,13 @@ public class PaymentWindow {
 
         this.userID = userid;
         this.myCart = new ShoppingCart(userID);
-        //double myTotal = myCart.getTotalPrice();
+        SingletonProductList products = SingletonProductList.getInstance();
+        productList = products.getProductList();
+
+        for(Product c: myCart.getCartContents())
+        {
+            System.out.println("in cart " + c.getProductName() + " " + myCart.getQuantity(c));
+        }
 
         final JFrame paymentWindow = new JFrame("Checkout");
         paymentWindow.getContentPane().setLayout(new BoxLayout(paymentWindow.getContentPane(), BoxLayout.Y_AXIS));
@@ -52,7 +57,27 @@ public class PaymentWindow {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    for (Product i : myCart.getCartContents())
+                    {
+                        String idNum = i.getProductID();
+                        for (Product p : productList)
+                        {
+                            if (idNum == p.getProductID())
+                            {
+                                products.updateAvailableQuantity(p.getProductID(), myCart.getQuantity(p));
+                            }
+                        }
+                    }
+                    for(Product k : productList)
+                    {
+                        System.out.println(k.getProductName() + k.getAvailableQuantity());
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
             }
         });
 
@@ -81,6 +106,7 @@ public class PaymentWindow {
         paymentWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
     private String userID;
-    ShoppingCart myCart;
+    private ShoppingCart myCart;
+    private ArrayList<Product> productList = new ArrayList<>();
 }
 

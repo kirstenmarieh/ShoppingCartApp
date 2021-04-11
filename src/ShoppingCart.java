@@ -7,7 +7,20 @@ public class ShoppingCart implements Serializable{
         this.userid = userID;
     }
 
-    public void calculateTotalPrice(){
+    public int getQuantity(Product p){
+        int count = 0;
+        for (Product i : cartContents)
+        {
+            if (i.getProductID() == p.getProductID())
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    void calculateTotalPrice(){
         totalPrice = 0;
         cartContents.forEach(Product-> this.totalPrice = totalPrice + Product.getSellPrice());
     }
@@ -24,13 +37,13 @@ public class ShoppingCart implements Serializable{
     public ArrayList<Product> getCartContents() throws IOException, ClassNotFoundException {
         try {
             //String fileName = userid + ".txt";
-        	String fileName=userid+".txt";
-        	File file=new File(fileName);
-        	if(file.exists()) {
-	            FileInputStream fis = new FileInputStream(fileName);//fileName);
-	            ObjectInputStream ois = new ObjectInputStream(fis);
-	            cartContents = (ArrayList<Product>) ois.readObject();
-        	}
+            String fileName=userid+".txt";
+            File file=new File(fileName);
+            if(file.exists()) {
+                FileInputStream fis = new FileInputStream(fileName);//fileName);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                this.cartContents = (ArrayList<Product>) ois.readObject();
+            }
             return cartContents;
         }
         catch(EOFException e)
@@ -50,11 +63,11 @@ public class ShoppingCart implements Serializable{
         fos.close();
     }
 
-    public void removeItem(Product p){
+    public void removeItem(Product p) throws IOException {
         this.cartContents.remove(p);
+        this.saveCart();
     }
 
-    private ArrayList<Product> products = new ArrayList<>();
     private double totalPrice;
     private String userid;
     private ArrayList<Product> cartContents = new ArrayList<>();
