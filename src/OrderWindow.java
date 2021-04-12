@@ -27,6 +27,21 @@ public class OrderWindow
         JButton backButton = new JButton("Back");
         backButton.setBounds(0, 0, 150, 25);
         orderWindow.add(backButton);
+        
+        backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        BrowseWindow buyerWindow = new BrowseWindow(userID);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                    
+                    orderWindow.dispose();
+                }
+        });
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 75, 760, 400);
@@ -64,13 +79,14 @@ public class OrderWindow
             
             for (int j = 0; j < orderProducts.size(); j++)
             {
-                productText = new JLabel(orderProducts.get(j).getProductName());
-                productText.setBounds(50, 50 + (40 * j), 100, 50);
+                productText = new JLabel(orderProducts.get(j).getProductName() + 
+                        " | $" + df.format(orderProducts.get(j).getSellPrice()));
+                productText.setBounds(50, 50 + (40 * j), 250, 50);
                 rowPanel.add(productText);
             }
 
             // JLabel For Price
-            JLabel orderPrice = new JLabel("Total Price : $" + df.format(myOrderList.get(i).getOrderPrice()));
+            JLabel orderPrice = new JLabel("Order Total : $" + df.format(myOrderList.get(i).getOrderPrice()));
             orderPrice.setBounds(400, 50, 200, 50);
             rowPanel.add(orderPrice);
         }
@@ -79,7 +95,7 @@ public class OrderWindow
     }
 
     private String userid;
-    //private ShoppingCart myCart;
+    private ShoppingCart myCart;
     private OrderList myOrders;
     private ArrayList<Order> myOrderList = new ArrayList<>();
 }
