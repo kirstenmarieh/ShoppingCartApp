@@ -67,6 +67,17 @@ public class ShoppingCart implements Serializable{
         this.cartContents.remove(p);
         this.saveCart();
     }
+	
+	 public void emptyCart() throws IOException {
+        String fileName = userid + ".txt";
+        File file = new File(fileName);
+        if (file.exists())
+        {
+            cartContents = new ArrayList<>();
+            totalPrice = 0.00;
+            this.saveCart();
+        }
+    }
 
     private double totalPrice;
     private String userid;

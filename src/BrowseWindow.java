@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class BrowseWindow
 {
-        public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
+    public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;
         this.myFavorites = new FavoritesList(userid);
         this.myCart = new ShoppingCart(userid);
@@ -25,21 +25,36 @@ public class BrowseWindow
         browseWindow.setBounds(100, 100, 800, 550);
         browseWindow.setLayout(null);
 
-        // Order Button - Needs Event Listener
+        // Order Button
         JButton orderButton = new JButton("View Orders");
         orderButton.setBounds(0, 0, 150, 25);
         browseWindow.add(orderButton);
+        
+        orderButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                   OrderWindow orderWindow = new OrderWindow(userID);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+                    
+                browseWindow.dispose();
+            }
+        });
 
+        DecimalFormat df = new DecimalFormat("#.00");
+        JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
+        cartTotal.setBounds(640, 25, 150, 25);
+        browseWindow.add(cartTotal);
+        
         // Checkout Button - Needs Event Listener
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
         browseWindow.add(checkoutButton);
         
-        DecimalFormat df = new DecimalFormat("#.00");
-        JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
-        cartTotal.setBounds(640, 25, 150, 25);
-        browseWindow.add(cartTotal);
-
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 75, 760, 400);
         browseWindow.add(scrollPane);
@@ -130,7 +145,7 @@ public class BrowseWindow
             //addListenerForAddToFav(addToFavButton, listIter.next());//productList.get(i));
 
             // JLabel For Price
-            JLabel productPrice = new JLabel("Price : $" + String.valueOf(productList.get(i).getSellPrice()));//productList.get(i).getPrice()));
+            JLabel productPrice = new JLabel("Price : $" + df.format(productList.get(i).getSellPrice()));//productList.get(i).getPrice()));
             productPrice.setBounds(50, 40, 100, 50);
             rowPanel.add(productPrice);
 
@@ -150,3 +165,4 @@ public class BrowseWindow
     private ArrayList<Product> myCartContents = new ArrayList<>();
     private ArrayList<Product> myFaveList = new ArrayList<>();
 }
+
