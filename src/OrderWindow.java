@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class OrderWindow
 {
     public OrderWindow(String userID) throws IOException, ClassNotFoundException {
-        //TestOrder(userID);
         this.userid = userID;  
         this.myOrders = new OrderList(userid);
         this.myOrderList = myOrders.getOrders();
@@ -95,7 +94,6 @@ public class OrderWindow
     }
 
     private String userid;
-    private ShoppingCart myCart;
     private OrderList myOrders;
     private ArrayList<Order> myOrderList = new ArrayList<>();
 }

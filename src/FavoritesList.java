@@ -25,6 +25,25 @@ public class FavoritesList implements Serializable {
         faves.add(p);
         this.saveFaveList();
     }
+	
+	 public void removeFave(Product p) throws IOException {
+		try {
+            this.getFaves();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        for (int i = 0; i < faves.size(); i++) 
+        {
+            if (p.getProductID().equals(faves.get(i).getProductID()))
+            {
+                System.out.println(p.getProductName() + " removed from favorites");
+                faves.remove(i);
+                this.saveFaveList();
+                return;
+            }
+        }
+    }
 
     public void saveFaveList() throws IOException {
         //String fileName = userid + ".txt";

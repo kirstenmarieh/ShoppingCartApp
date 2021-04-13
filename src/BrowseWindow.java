@@ -115,33 +115,56 @@ public class BrowseWindow
             });
             rowPanel.add(addToCartButton);
 
-            //addListenerForAddToCart(addToCartButton, productList.get(i));//productList.get(i));
+            
+            JButton favoriteButton = new JButton("Add To Favorites");;
+            
+            System.out.println("\nFavorites:");
+            for (int k = 0; k < myFaveList.size(); k++)
+            {
+                System.out.println(k + " : " + myFaveList.get(k).getProductName());
+                
+                if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID()))
+                {
+                    favoriteButton.setText("Unfavorite");
+                    break;
+                }
+            }
 
-            // Add To Favorite List - Needs Event Listener
-            JButton addToFavButton = new JButton("Add To Favorites");
-            addToFavButton.setBounds(575, 100, 150, 50);
-            addToFavButton.addActionListener(new ActionListener() {
+
+            favoriteButton.setBounds(575, 100, 150, 50);
+            favoriteButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    try {
-                        myFavorites.addFave(productList.get(j));
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-
-                    try {
-                        for(Product p: myFavorites.getFaves())
-                        {
-                            System.out.println("in faves: " + p.getProductName());
+                    JButton clicked = (JButton) e.getSource();
+                    String clickedText = clicked.getText();
+                    System.out.println(clickedText);
+                    
+                    if (clickedText.equals("Add To Favorites"))
+                    {
+                        try {
+                            myFavorites.addFave(productList.get(j));
+                            clicked.setText("Unfavorite");
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
                         }
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
+                    }
+                    else 
+                    {
+                        try {
+                            for(Product p: myFavorites.getFaves())
+                            {
+                                myFavorites.removeFave(productList.get(j));
+                                clicked.setText("Add To Favorites");
+                            }
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                        }
                     }
                 }
             });
-            rowPanel.add(addToFavButton);
+            rowPanel.add(favoriteButton);
             //addListenerForAddToFav(addToFavButton, listIter.next());//productList.get(i));
 
             // JLabel For Price
