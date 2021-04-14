@@ -29,41 +29,39 @@ public class BrowseWindow
         // Order Button
         JButton orderButton = new JButton("View Orders");
         orderButton.setBounds(0, 0, 150, 25);
+        orderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                       OrderWindow orderWindow = new OrderWindow(userID);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                        
+                    browseWindow.dispose();
+                }
+            });
         browseWindow.add(orderButton);
         
-        orderButton.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                   OrderWindow orderWindow = new OrderWindow(userID);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-                    
-                browseWindow.dispose();
-            }
-        });
+        
 
         DecimalFormat df = new DecimalFormat("#.00");
         JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
         cartTotal.setBounds(640, 25, 150, 25);
         browseWindow.add(cartTotal);
         
-        // Checkout Button - Needs Event Listener
+
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
         checkoutButton.addActionListener((e)->{
         	try {
 				CheckoutWindow checkoutWindow=new CheckoutWindow(userID);
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+        	browseWindow.dispose();
         });
         
         browseWindow.add(checkoutButton);

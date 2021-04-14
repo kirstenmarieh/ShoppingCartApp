@@ -23,11 +23,9 @@ public class SellerInventory implements Serializable {
         ChangeEvent event = new ChangeEvent(this);
 
         System.out.println(listeners.size());
-          for(SellerFinancialView n : listeners)
-              {
-
+        for(SellerFinancialView n : listeners)
+        {
           n.stateChanged(event);
-
         }
     }
 
