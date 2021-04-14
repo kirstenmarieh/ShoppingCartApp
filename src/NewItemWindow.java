@@ -81,6 +81,7 @@ public class NewItemWindow extends JFrame{
 
                     inventory.addChangeListener(sView);
                     inventory.calculateCosts();
+                    frame.dispose();
 
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

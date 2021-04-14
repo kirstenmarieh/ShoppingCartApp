@@ -18,7 +18,7 @@ public class CheckoutWindow {
         myCart.calculateTotalPrice();
         System.out.println("tot price: " + myCart.getTotalPrice());
 
-        final JFrame checkoutWindow = new JFrame("Browse Products");
+        final JFrame checkoutWindow = new JFrame("Checkout");
         checkoutWindow.setBounds(100, 100, 800, 550);
         checkoutWindow.setLayout(null);
 
@@ -98,11 +98,18 @@ public class CheckoutWindow {
 
         JButton confirmButton = new JButton("Confirm");
         confirmButton.setBounds(600, 0, 100, 50);
-        confirmButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
+        confirmButton.addActionListener(e -> {
+        	for (int i = 0; i < myCartContents.size(); i++) {
+        		try {
+					SingletonProductList list = SingletonProductList.getInstance();
+					list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
+					checkoutWindow.dispose();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+        		
+        	}
+        	
         });
         checkoutWindow.add(confirmButton);
         checkoutWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
