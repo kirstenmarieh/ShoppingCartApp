@@ -34,10 +34,11 @@ public class SingletonProductList implements Serializable {
 
                 if (count < 0) {
                     if (currentQuantity > 0)
-                    {System.out.println("dec: " + currentQuantity--);
-                        p.setAvailableQuantity(currentQuantity--);}
-
-                } else {
+                    {
+	                	System.out.println("dec: " + currentQuantity--);
+	                    p.setAvailableQuantity(currentQuantity--);
+	                }
+                }else{
                     System.out.println("inc: " + currentQuantity++);
                     p.setAvailableQuantity(currentQuantity++);
 
@@ -46,7 +47,22 @@ public class SingletonProductList implements Serializable {
         }
         this.saveList(this.productList);
     }
-
+    
+    public void sellQuantity(String productID, int count) throws IOException {
+    	for (Product p : productList) {
+    		if (productID.equals(p.getProductID())) {
+    			if(p.getAvailableQuantity()>=count) {
+    				p.sell(count);
+    			}
+    			else {
+    				p.sell(p.getAvailableQuantity());
+    			}
+    		}
+    	}
+    	this.saveList(this.productList);
+    }
+    
+    //why does this function take an argument that it does not use?
     public void saveList(ArrayList<Product> productList) throws IOException {
         FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -101,19 +117,23 @@ public class SingletonProductList implements Serializable {
      * @throws ClassNotFoundException
      */
     public ArrayList<Product> getList(String userID) throws IOException, ClassNotFoundException {
-
-        FileInputStream fis = new FileInputStream("globalproductlist.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        productList = (ArrayList<Product>) ois.readObject();
-        ois.close();
-
-        ArrayList<Product> personalProductList = new ArrayList<>();
-        for (Product p : productList)
-            if (p.getSellerID().equals(userID)) {
-                personalProductList.add(p);
-            }
-        ois.close();
-        return personalProductList;
+    	File file=new File("globalproductlist.txt");
+    	if(file.exists()) {
+	        FileInputStream fis = new FileInputStream("globalproductlist.txt");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        productList = (ArrayList<Product>) ois.readObject();
+	        ois.close();
+	
+	        ArrayList<Product> personalProductList = new ArrayList<>();
+	        for (Product p : productList)
+	            if (p.getSellerID().equals(userID)) {
+	                personalProductList.add(p);
+	            }
+	        ois.close();
+	    	
+	        return personalProductList;
+    	}
+    	return new ArrayList<Product>();
     }
 
 

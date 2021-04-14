@@ -18,21 +18,21 @@ public class SellerInventory implements Serializable {
 
     public void calculateCosts() {
 
-        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAvailableQuantity()));
+        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAmountInvoiced()));
 
         ChangeEvent event = new ChangeEvent(this);
 
         System.out.println(listeners.size());
-          for(SellerFinancialView n : listeners)
-              {
-
+        for(SellerFinancialView n : listeners)
+        {
           n.stateChanged(event);
-
         }
     }
 
+    
     public void calculateRevenue() {
-        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAvailableQuantity()));
+    	revenue=0;
+        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
     }
 
     public void calculateProfits() {

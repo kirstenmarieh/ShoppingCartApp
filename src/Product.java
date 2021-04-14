@@ -9,7 +9,9 @@ public class Product implements Serializable {
     private double invoicePrice;
     private String type;
     private String sellerID;
-
+    private int quantitySold;
+    private int quantityInvoiced;
+    
     public Product(String name, String productID, String prodType, double salePrice, String desc, int available, double invPrice, String sellerId) {
         this.availableQuantity = available;
         this.productDescription = desc;
@@ -19,6 +21,8 @@ public class Product implements Serializable {
         this.type = prodType;
         this.invoicePrice = invPrice;
         this.sellerID = sellerId;
+        quantitySold=0;
+        quantityInvoiced=available;
     }
 
     public Product getProduct() {
@@ -32,9 +36,11 @@ public class Product implements Serializable {
     public String getProductName() {
         return this.productName;
     }
-
+    
+    //to be used from sellerInventory
     public void setAvailableQuantity(int quantity) {
-        this.availableQuantity = quantity;
+        quantityInvoiced+=(quantity-availableQuantity);
+    	this.availableQuantity = quantity;
     }
 
     public String getProductID() {
@@ -59,5 +65,19 @@ public class Product implements Serializable {
 
     public String getProductDescription(){
         return this.productDescription;
+    }
+    
+    //to be used by checkoutwindow
+    public void sell(int amount) {
+    	quantitySold+=amount;
+    	availableQuantity-=amount;
+    }
+    
+    
+    public int getAmountSold() {
+    	return quantitySold;
+    };
+    public int getAmountInvoiced() {
+    	return quantityInvoiced;
     }
 }
