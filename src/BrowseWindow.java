@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class BrowseWindow
@@ -53,6 +54,18 @@ public class BrowseWindow
         // Checkout Button - Needs Event Listener
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
+        checkoutButton.addActionListener((e)->{
+        	try {
+				CheckoutWindow checkoutWindow=new CheckoutWindow(userID);
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        });
+        
         browseWindow.add(checkoutButton);
         
         JScrollPane scrollPane = new JScrollPane();

@@ -56,6 +56,7 @@ public class LoginWindow{
                     {System.out.println("successful login");
                     try {
                         SellerInventoryWindow sPage = new SellerInventoryWindow(b);
+                        loginWindow.dispose();
                         
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
@@ -68,6 +69,7 @@ public class LoginWindow{
                     System.out.println("ends with b");
                     try {
                         BrowseWindow buyerWindow = new BrowseWindow(b);
+                        loginWindow.dispose();
                         //ShoppingCart myCart = new ShoppingCart(b);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
