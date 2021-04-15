@@ -63,7 +63,7 @@ public class SingletonProductList implements Serializable {
     }
     
     //why does this function take an argument that it does not use?
-    public void saveList(ArrayList<Product> productList) throws IOException {
+    public void saveList() throws IOException {
         FileOutputStream fos = new FileOutputStream("globalproductlist.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.productList);
