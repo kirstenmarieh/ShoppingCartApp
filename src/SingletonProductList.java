@@ -29,7 +29,7 @@ public class SingletonProductList implements Serializable {
 
             if (productID.equals(p.getProductID())) {
 
-                int currentQuantity = p.getAvailableQuantity();
+                int currentQuantity = count;
 
                 p.setAvailableQuantity(currentQuantity);
             }
@@ -139,7 +139,6 @@ public class SingletonProductList implements Serializable {
         ois.close();
         return personalProductList;
     }
-
 
     private static SingletonProductList instance = null;
     private ArrayList<Product> productList = new ArrayList<>();
