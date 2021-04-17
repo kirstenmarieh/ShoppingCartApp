@@ -17,6 +17,7 @@ public class SellerInventoryWindow extends JFrame{
         SellerInventory myInventory = new SellerInventory(sellerid);
         myProducts = myInventory.getInventory();
         this.sellerid = SellerID;
+
         final JFrame frame = new JFrame("Inventory");
         frame.setBounds(100, 100, 800, 550);
 
@@ -40,6 +41,10 @@ public class SellerInventoryWindow extends JFrame{
         //JLabel inventoryLabel = new JLabel("Current Inventory");
 
         //productPanel.add(inventoryLabel);
+
+        myInventory.calculateProfits();
+        myInventory.calculateRevenue();
+        myInventory.calculateCosts();
         SellerFinancialView newFV = new SellerFinancialView(myInventory.getCosts(), myInventory.getRevenue(), myInventory.getProfit(), Color.BLACK);
         JButton listingButton = new JButton("Add New Listing");
         listingButton.addActionListener(new ActionListener() {
@@ -87,7 +92,7 @@ public class SellerInventoryWindow extends JFrame{
                 public void actionPerformed(ActionEvent e) {
 
                     try {
-                        globalSingleton.updateQuantity(myProducts.get(k).getProductID(), 1);
+                        globalSingleton.addOrSubtractQuantity(myProducts.get(k).getProductID(), 1);
                         ArrayList<Product> updatedStuff = globalSingleton.getList(sellerid);
                         SellerInventory newInventory = new SellerInventory(sellerid);
 
@@ -113,7 +118,7 @@ public class SellerInventoryWindow extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        globalSingleton.updateQuantity(myProducts.get(k).getProductID(), -1);
+                        globalSingleton.addOrSubtractQuantity(myProducts.get(k).getProductID(), -1);
                         ArrayList<Product> updatedStuff = globalSingleton.getList(sellerid);
                         SellerInventory newInventory = new SellerInventory(sellerid);
 
@@ -143,16 +148,13 @@ public class SellerInventoryWindow extends JFrame{
 
         frame.getContentPane().add(productPane);
         frame.getContentPane().add(newFV);
-        //productPane.setVisible(true);
+
 
         JButton updateButton = new JButton("update");
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    productPanel.repaint();
-
-
-
+                productPanel.repaint();
 
             }
         });
