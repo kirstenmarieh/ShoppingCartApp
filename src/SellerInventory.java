@@ -17,15 +17,20 @@ public class SellerInventory implements Serializable {
     }
 
     public void calculateCosts() {
+        System.out.println("from costs: ");
+        for (Product p : inventory)
+        {
+            System.out.println(p.getProductName() + " " + p.getAvailableQuantity());
+        }
 
-        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAmountInvoiced()));
-
+        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()) * Product.getAvailableQuantity());
+        System.out.println("costs : " + costs);
         ChangeEvent event = new ChangeEvent(this);
 
         System.out.println(listeners.size());
         for(SellerFinancialView n : listeners)
         {
-          n.stateChanged(event);
+            n.stateChanged(event);
         }
     }
 

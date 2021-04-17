@@ -8,12 +8,12 @@ public class FavoritesList implements Serializable {
     }
 
     public void addFave(Product p) throws IOException {
-        try { 
+        try {
             this.getFaves();
-        } catch (Exception e) { 
-            e.printStackTrace(); 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
+
         for (Product i : faves){
             if (p.getProductID().equals(i.getProductID()))
             {
@@ -21,19 +21,19 @@ public class FavoritesList implements Serializable {
                 return;
             }
         }
-        
+
         faves.add(p);
         this.saveFaveList();
     }
-	
-	 public void removeFave(Product p) throws IOException {
-		try {
+
+    public void removeFave(Product p) throws IOException {
+        try {
             this.getFaves();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        for (int i = 0; i < faves.size(); i++) 
+
+        for (int i = 0; i < faves.size(); i++)
         {
             if (p.getProductID().equals(faves.get(i).getProductID()))
             {
@@ -46,25 +46,38 @@ public class FavoritesList implements Serializable {
     }
 
     public void saveFaveList() throws IOException {
-        //String fileName = userid + ".txt";
-        FileOutputStream fos = new FileOutputStream("3b.txt");//fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this.faves);
-        oos.flush();
-        oos.close();
-        fos.close();
+        String fileName = userid +".txt";
+        File file = new File(fileName);
+        if (file.exists())
+        {
+            FileOutputStream fos = new FileOutputStream("3b.txt");//fileName);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this.faves);
+            oos.flush();
+            oos.close();
+            fos.close();
+        }
+        else
+        {
+            file.createNewFile();
+        }
 
     }
 
     public ArrayList<Product> getFaves() throws IOException, ClassNotFoundException {
-        String fileName=userid+".txt";
-    	File file=new File(fileName);
-    	System.out.println(fileName+"????");
-    	if(file.exists()) {
-	    	FileInputStream fis = new FileInputStream("3b.txt");//fileName);
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        this.faves = (ArrayList<Product>) ois.readObject();
-	    }
+        try{
+            String fileName=userid+".txt";
+            File file=new File(fileName);
+            System.out.println(fileName+"????");
+            if(file.exists()) {
+                FileInputStream fis = new FileInputStream("3b.txt");//fileName);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                this.faves = (ArrayList<Product>) ois.readObject();
+            }}
+        catch (EOFException e)
+        {
+            System.out.println("No products in favorites list.");
+        }
         return faves;
     }
 
