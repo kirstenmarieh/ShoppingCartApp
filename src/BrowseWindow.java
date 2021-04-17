@@ -26,6 +26,20 @@ public class BrowseWindow
         browseWindow.setBounds(100, 100, 800, 550);
         browseWindow.setLayout(null);
 
+        //View favorites button
+        JButton viewFaveButton = new JButton("View Favorites");
+        viewFaveButton.setBounds(485,0,150,25);
+        viewFaveButton.addActionListener(e->{
+            try {
+                FavoritesWindow faveWindow = new FavoritesWindow(userid);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            } catch (ClassNotFoundException classNotFoundException) {
+                classNotFoundException.printStackTrace();
+            }
+        });
+        browseWindow.add(viewFaveButton);
+
         // Order Button
         JButton orderButton = new JButton("View Orders");
         orderButton.setBounds(0, 0, 150, 25);
@@ -33,39 +47,39 @@ public class BrowseWindow
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                       OrderWindow orderWindow = new OrderWindow(userID);
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    } catch (ClassNotFoundException classNotFoundException) {
-                        classNotFoundException.printStackTrace();
-                    }
-                        
-                    browseWindow.dispose();
+                    OrderWindow orderWindow = new OrderWindow(userID);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
                 }
-            });
+
+                browseWindow.dispose();
+            }
+        });
         browseWindow.add(orderButton);
-        
-        
+
+
 
         DecimalFormat df = new DecimalFormat("#.00");
         JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
         cartTotal.setBounds(640, 25, 150, 25);
         browseWindow.add(cartTotal);
-        
+
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
         checkoutButton.addActionListener((e)->{
-        	try {
-				CheckoutWindow checkoutWindow=new CheckoutWindow(userID);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-        	browseWindow.dispose();
+            try {
+                CheckoutWindow checkoutWindow=new CheckoutWindow(userID);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            browseWindow.dispose();
         });
-        
+
         browseWindow.add(checkoutButton);
-        
+
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 75, 760, 400);
         browseWindow.add(scrollPane);
@@ -114,7 +128,7 @@ public class BrowseWindow
                         myCart.calculateTotalPrice();
                         System.out.println("price: " + myCart.getTotalPrice());
                         cartTotal.setText("Total: $" + df.format(myCart.getTotalPrice()));
-                        
+
                         for(Product p: myCart.getCartContents())
                         {
                             System.out.println("in cart: " + p.getProductName());
@@ -126,14 +140,14 @@ public class BrowseWindow
             });
             rowPanel.add(addToCartButton);
 
-            
+
             JButton favoriteButton = new JButton("Add To Favorites");;
-            
+
             System.out.println("\nFavorites:");
             for (int k = 0; k < myFaveList.size(); k++)
             {
                 System.out.println(k + " : " + myFaveList.get(k).getProductName());
-                
+
                 if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID()))
                 {
                     favoriteButton.setText("Unfavorite");
@@ -149,7 +163,7 @@ public class BrowseWindow
                     JButton clicked = (JButton) e.getSource();
                     String clickedText = clicked.getText();
                     System.out.println(clickedText);
-                    
+
                     if (clickedText.equals("Add To Favorites"))
                     {
                         try {
@@ -159,7 +173,7 @@ public class BrowseWindow
                             ioException.printStackTrace();
                         }
                     }
-                    else 
+                    else
                     {
                         try {
                             for(Product p: myFavorites.getFaves())
