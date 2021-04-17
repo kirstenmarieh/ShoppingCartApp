@@ -58,18 +58,6 @@ public class PaymentWindow {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                for (int i = 0; i < myCartContents.size(); i++) {
-                    try {
-                        SingletonProductList list = SingletonProductList.getInstance();
-                        list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
-
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
-                    }
-
-                }
-
                 try {
                     // Creating And Adding Order And Emptying The Cart | Def Needs To Be Moved Somewhere Else
 
@@ -77,15 +65,41 @@ public class PaymentWindow {
                     OrderList myOrders = new OrderList(userID);
                     myOrders.addOrder(newOrder);
                     SingletonProductList singleton = SingletonProductList.getInstance();
+
+                    // int i = 0;
                     for (Product p : myCart.getCartContents())
                     {
-                        singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
-                    }
-                    myCart.emptyCart();
 
+                        singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
+                        SingletonProductList newS = SingletonProductList.getInstance();
+                        SellerInventory inventory = new SellerInventory(p.getSellerID());
+                        ArrayList<Product> mine = new ArrayList<>();
+                        mine = inventory.getSoldItems(p.getSellerID());
+                        inventory.addSoldItem(p);
+                        //for (Product k : inventory.getSoldItems(p.getSellerID()))//inventory.getSoldItems(p.getSellerID()))
+                        // {
+                        //   if(k.getProductID() == p.getProductID())
+                        //         System.out.println("sold: " +  " " + p.getProductName() + " " + inventory.getNumberSold(k));
+                        // }
+                        //i++;
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
+                try {
+                    myCart.emptyCart();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+                try {
                     BrowseWindow buyerWindow = new BrowseWindow(userID);
-                } catch (Exception e2) {
-                    e2.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
                 }
 
                 paymentWindow.dispose();
