@@ -201,6 +201,10 @@ public class BrowseWindow
             JLabel productDescription = new JLabel("<html>" + productList.get(i).getProductDescription() + "</html>");//productList.get(i).getProductDescription()
             productDescription.setBounds(50, 40, 500, 200);
             rowPanel.add(productDescription);
+
+            JLabel quantityLabel = new JLabel("Quantity in Stock: " + productList.get(i).getAvailableQuantity());
+            quantityLabel.setBounds(50,70, 200, 50);
+            rowPanel.add(quantityLabel);
         }
 
         browseWindow.setVisible(true);
