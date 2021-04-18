@@ -32,7 +32,11 @@ public class FavoritesList implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if (faves.size() == 0)
+        {
+            System.out.println("Favorites list is empty.");
+            return;
+        }
         for (int i = 0; i < faves.size(); i++)
         {
             if (p.getProductID().equals(faves.get(i).getProductID()))
@@ -50,7 +54,7 @@ public class FavoritesList implements Serializable {
         File file = new File(fileName);
         if (file.exists())
         {
-            FileOutputStream fos = new FileOutputStream("3b.txt");//fileName);
+            FileOutputStream fos = new FileOutputStream(fileName);//fileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(this.faves);
             oos.flush();
@@ -68,9 +72,8 @@ public class FavoritesList implements Serializable {
         try{
             String fileName=userid+".txt";
             File file=new File(fileName);
-            System.out.println(fileName+"????");
             if(file.exists()) {
-                FileInputStream fis = new FileInputStream("3b.txt");//fileName);
+                FileInputStream fis = new FileInputStream(fileName);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 this.faves = (ArrayList<Product>) ois.readObject();
             }}
