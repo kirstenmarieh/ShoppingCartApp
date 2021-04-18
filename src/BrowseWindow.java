@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Iterator;
 import javax.swing.*;
 import java.awt.*;
@@ -15,12 +16,12 @@ public class BrowseWindow
         this.myFaveList = myFavorites.getFaves();
         this.myCartContents = myCart.getCartContents();
 
-        for(Product p : myCartContents)
+        /*for(Product p : myCartContents)
         {
             System.out.println("cart: " + p.getProductName());
-        }
+        }*/
         myCart.calculateTotalPrice();
-        System.out.println("tot price: " + myCart.getTotalPrice());
+        //System.out.println("tot price: " + myCart.getTotalPrice());
 
         final JFrame browseWindow = new JFrame("Browse Products");
         browseWindow.setBounds(100, 100, 800, 550);
@@ -59,13 +60,10 @@ public class BrowseWindow
         });
         browseWindow.add(orderButton);
 
-
-
         DecimalFormat df = new DecimalFormat("#.00");
         JLabel cartTotal = new JLabel("Total : $" + df.format(myCart.getTotalPrice()));
         cartTotal.setBounds(640, 25, 150, 25);
         browseWindow.add(cartTotal);
-
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.setBounds(640, 0, 150, 25);
@@ -94,120 +92,239 @@ public class BrowseWindow
         columnPanel.setBackground(Color.gray);
 
         SingletonProductList singleton = SingletonProductList.getInstance();
-        //productList = singleton.getList();
         Iterator<Product> listIter = singleton.getProductList().iterator();
-
         while(listIter.hasNext())
         {
             productList.add(listIter.next());
         }
 
-        for (int i = 0; i < productList.size(); i++)
-        {
-            JPanel rowPanel = new JPanel();
-            rowPanel.setPreferredSize(new Dimension(300, 200));
-            columnPanel.add(rowPanel);
-            rowPanel.setLayout(null);
+        String[] sortStrings = {"Sort" , "Name", "Price (High to Low)"};
+        JComboBox sortList = new JComboBox(sortStrings);
+        sortList.setSelectedIndex(0);
+        sortList.setBounds(0, 40, 150, 25);
+        browseWindow.add(sortList);
+        sortList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SortByName sortByName = new SortByName();
+                JComboBox jcb = (JComboBox) e.getSource();
+                int strategySelected = jcb.getSelectedIndex();
 
-            JButton viewProductButton = new JButton(productList.get(i).getProductName());
-            viewProductButton.setBounds(50, 0, 150, 50);
-            final int j=i; //I feel dirty for doing this but I don't want to deal with it
-            viewProductButton.addActionListener(e -> {
-                new ProductPopupWindow(productList.get(j));
-            });
-            rowPanel.add(viewProductButton);
+                if (strategySelected == 0) { //populate window normally
+                    for (int i = 0; i < productList.size(); i++)
+                    {
+                        JPanel rowPanel = new JPanel();
+                        rowPanel.setPreferredSize(new Dimension(300, 200));
+                        columnPanel.add(rowPanel);
+                        rowPanel.setLayout(null);
 
-            // Add To Cart Button
-            JButton addToCartButton = new JButton("Add To Cart");
-            addToCartButton.setBounds(600, 0, 100, 50);
-            addToCartButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        myCart.addItem(productList.get(j));
-                        myCart.calculateTotalPrice();
-                        System.out.println("price: " + myCart.getTotalPrice());
-                        cartTotal.setText("Total: $" + df.format(myCart.getTotalPrice()));
+                        JButton viewProductButton = new JButton(productList.get(i).getProductName());
+                        viewProductButton.setBounds(50, 0, 150, 50);
+                        final int j=i; //I feel dirty for doing this but I don't want to deal with it
+                        viewProductButton.addActionListener(f -> {
+                            new ProductPopupWindow(productList.get(j));
+                        });
+                        rowPanel.add(viewProductButton);
 
-                        for(Product p: myCart.getCartContents())
+                        // Add To Cart Button
+                        JButton addToCartButton = new JButton("Add To Cart");
+                        addToCartButton.setBounds(600, 0, 100, 50);
+                        addToCartButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                try {
+                                    myCart.addItem(productList.get(j));
+                                    myCart.calculateTotalPrice();
+                                    System.out.println("price: " + myCart.getTotalPrice());
+                                    cartTotal.setText("Total: $" + df.format(myCart.getTotalPrice()));
+
+                                    for(Product p: myCart.getCartContents())
+                                    {
+                                        System.out.println("in cart: " + p.getProductName());
+                                    }
+                                } catch (IOException | ClassNotFoundException ioException) {
+                                    ioException.printStackTrace();
+                                }
+                            }
+                        });
+                        rowPanel.add(addToCartButton);
+
+
+                        JButton favoriteButton = new JButton("Add To Favorites");
+
+                        System.out.println("\nFavorites:");
+                        for (int k = 0; k < myFaveList.size(); k++)
                         {
-                            System.out.println("in cart: " + p.getProductName());
+                            System.out.println(k + " : " + myFaveList.get(k).getProductName());
+
+                            if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID()))
+                            {
+                                favoriteButton.setText("Unfavorite");
+                                break;
+                            }
                         }
-                    } catch (IOException | ClassNotFoundException ioException) {
-                        ioException.printStackTrace();
+
+
+                        favoriteButton.setBounds(575, 100, 150, 50);
+                        favoriteButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JButton clicked = (JButton) e.getSource();
+                                String clickedText = clicked.getText();
+                                System.out.println(clickedText);
+
+                                if (clickedText.equals("Add To Favorites"))
+                                {
+                                    try {
+                                        myFavorites.addFave(productList.get(j));
+                                        clicked.setText("Unfavorite");
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                }
+                                else
+                                {
+                                    try {
+                                        for(Product p: myFavorites.getFaves())
+                                        {
+                                            myFavorites.removeFave(productList.get(j));
+                                            clicked.setText("Add To Favorites");
+                                        }
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    } catch (ClassNotFoundException classNotFoundException) {
+                                        classNotFoundException.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                        rowPanel.add(favoriteButton);
+                        //addListenerForAddToFav(addToFavButton, listIter.next());//productList.get(i));
+
+                        // JLabel For Price
+                        JLabel productPrice = new JLabel("Price : $" + df.format(productList.get(i).getSellPrice()));//productList.get(i).getPrice()));
+                        productPrice.setBounds(50, 40, 100, 50);
+                        rowPanel.add(productPrice);
+
+                        // JLabel For Product Description
+                        JLabel productDescription = new JLabel("<html>" + productList.get(i).getProductDescription() + "</html>");//productList.get(i).getProductDescription()
+                        productDescription.setBounds(50, 40, 500, 200);
+                        rowPanel.add(productDescription);
+
+                        JLabel quantityLabel = new JLabel("Quantity in Stock: " + productList.get(i).getAvailableQuantity());
+                        quantityLabel.setBounds(50,70, 200, 50);
+                        rowPanel.add(quantityLabel);
                     }
+
+                    browseWindow.setVisible(true);
                 }
-            });
-            rowPanel.add(addToCartButton);
 
+                else if (strategySelected == 1) {
+                    System.out.println("Strategy: " + strategySelected);
+                    Collections.sort(productList, sortByName.productSearch());
 
-            JButton favoriteButton = new JButton("Add To Favorites");;
+                    for (int i = 0; i < productList.size(); i++) {
 
-            System.out.println("\nFavorites:");
-            for (int k = 0; k < myFaveList.size(); k++)
-            {
-                System.out.println(k + " : " + myFaveList.get(k).getProductName());
+                        JPanel rowPanel = new JPanel();
+                        rowPanel.setPreferredSize(new Dimension(300, 200));
+                        columnPanel.add(rowPanel);
+                        rowPanel.setLayout(null);
 
-                if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID()))
+                        JButton viewProductButton = new JButton(productList.get(i).getProductName());
+                        viewProductButton.setBounds(50, 0, 150, 50);
+                        final int j = i; //I feel dirty for doing this but I don't want to deal with it
+                        viewProductButton.addActionListener(f -> {
+                            new ProductPopupWindow(productList.get(j));
+                        });
+                        rowPanel.add(viewProductButton);
+
+                        // Add To Cart Button
+                        JButton addToCartButton = new JButton("Add To Cart");
+                        addToCartButton.setBounds(600, 0, 100, 50);
+                        addToCartButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                try {
+                                    myCart.addItem(productList.get(j));
+                                    myCart.calculateTotalPrice();
+                                    System.out.println("price: " + myCart.getTotalPrice());
+                                    cartTotal.setText("Total: $" + df.format(myCart.getTotalPrice()));
+
+                                    for (Product p : myCart.getCartContents()) {
+                                        System.out.println("in cart: " + p.getProductName());
+                                    }
+                                } catch (IOException | ClassNotFoundException ioException) {
+                                    ioException.printStackTrace();
+                                }
+                            }
+                        });
+                        rowPanel.add(addToCartButton);
+
+                        JButton favoriteButton = new JButton("Add To Favorites");
+
+                        //System.out.println("\nFavorites:");
+                        for (int k = 0; k < myFaveList.size(); k++) {
+                            //System.out.println(k + " : " + myFaveList.get(k).getProductName());
+                            if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID())) {
+                                favoriteButton.setText("Unfavorite");
+                                break;
+                            }
+                        }
+
+                        favoriteButton.setBounds(575, 100, 150, 50);
+                        favoriteButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent c) {
+                                JButton clicked = (JButton) c.getSource();
+                                String clickedText = clicked.getText();
+                                System.out.println(clickedText);
+
+                                if (clickedText.equals("Add To Favorites")) {
+                                    try {
+                                        myFavorites.addFave(productList.get(j));
+                                        clicked.setText("Unfavorite");
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                } else {
+                                    try {
+                                        for (Product p : myFavorites.getFaves()) {
+                                            myFavorites.removeFave(productList.get(j));
+                                            clicked.setText("Add To Favorites");
+                                        }
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    } catch (ClassNotFoundException classNotFoundException) {
+                                        classNotFoundException.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                        rowPanel.add(favoriteButton);
+
+                        JLabel productPrice = new JLabel("Price : $" + df.format(productList.get(i).getSellPrice()));//productList.get(i).getPrice()));
+                        productPrice.setBounds(50, 40, 100, 50);
+                        rowPanel.add(productPrice);
+
+                        // JLabel For Product Description
+                        JLabel productDescription = new JLabel("<html>" + productList.get(i).getProductDescription() + "</html>");//productList.get(i).getProductDescription()
+                        productDescription.setBounds(50, 40, 500, 200);
+                        rowPanel.add(productDescription);
+
+                        JLabel quantityLabel = new JLabel("Quantity in Stock: " + productList.get(i).getAvailableQuantity());
+                        quantityLabel.setBounds(50,70, 200, 50);
+                        rowPanel.add(quantityLabel);
+                    }
+                    browseWindow.setVisible(true);
+                }
+                else //sort by price
                 {
-                    favoriteButton.setText("Unfavorite");
-                    break;
+
                 }
             }
-
-
-            favoriteButton.setBounds(575, 100, 150, 50);
-            favoriteButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton clicked = (JButton) e.getSource();
-                    String clickedText = clicked.getText();
-                    System.out.println(clickedText);
-
-                    if (clickedText.equals("Add To Favorites"))
-                    {
-                        try {
-                            myFavorites.addFave(productList.get(j));
-                            clicked.setText("Unfavorite");
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
-                    }
-                    else
-                    {
-                        try {
-                            for(Product p: myFavorites.getFaves())
-                            {
-                                myFavorites.removeFave(productList.get(j));
-                                clicked.setText("Add To Favorites");
-                            }
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        } catch (ClassNotFoundException classNotFoundException) {
-                            classNotFoundException.printStackTrace();
-                        }
-                    }
-                }
-            });
-            rowPanel.add(favoriteButton);
-            //addListenerForAddToFav(addToFavButton, listIter.next());//productList.get(i));
-
-            // JLabel For Price
-            JLabel productPrice = new JLabel("Price : $" + df.format(productList.get(i).getSellPrice()));//productList.get(i).getPrice()));
-            productPrice.setBounds(50, 40, 100, 50);
-            rowPanel.add(productPrice);
-
-            // JLabel For Product Description
-            JLabel productDescription = new JLabel("<html>" + productList.get(i).getProductDescription() + "</html>");//productList.get(i).getProductDescription()
-            productDescription.setBounds(50, 40, 500, 200);
-            rowPanel.add(productDescription);
-
-            JLabel quantityLabel = new JLabel("Quantity in Stock: " + productList.get(i).getAvailableQuantity());
-            quantityLabel.setBounds(50,70, 200, 50);
-            rowPanel.add(quantityLabel);
-        }
-
+        });
         browseWindow.setVisible(true);
+
     }
 
     private String userid;
