@@ -20,6 +20,26 @@ public class SellerInventory implements Serializable {
     }
 
     public void calculateCosts() {
+
+        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAvailableQuantity()));
+        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAmountInvoiced()));
+
+        ChangeEvent event = new ChangeEvent(this);
+
+        System.out.println(listeners.size());
+        for(SellerFinancialView n : listeners)
+        {
+            n.stateChanged(event);
+        }
+    }
+
+    public void calculateRevenue() {
+        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAvailableQuantity()));
+        revenue=0;
+        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
+    }
+
+    /*public void calculateCosts() {
         for (Product p : inventory)
         {
             System.out.println(p.getProductName() + " " + p.getAvailableQuantity());
@@ -33,16 +53,17 @@ public class SellerInventory implements Serializable {
         {
             n.stateChanged(event);
         }
-    }
+    }*/
 
 
-    public void calculateRevenue() throws IOException {
+    /*public void calculateRevenue() throws IOException {
         revenue=0;
 
         ArrayList<Product> mine = new ArrayList<>();
         mine = this.getSoldItems(sellerID);
         soldItems.forEach(Product-> this.revenue = revenue + (Product.getSellPrice()*this.getNumberSold(Product)));
-    }
+    }*/
+
 
     public void calculateProfits() {
         this.profit = this.revenue - this.costs;
@@ -70,7 +91,8 @@ public class SellerInventory implements Serializable {
     public ArrayList<Product> getSoldItems(String sellerid) throws IOException {
 
         try {
-            String fileName = this.sellerID + "soldItems.txt";
+
+           String fileName = this.sellerID + "soldItems.txt";
             File file = new File(fileName);
             if (file.exists())
             {
@@ -93,6 +115,7 @@ public class SellerInventory implements Serializable {
 
     public void saveSoldItems() throws IOException {
         String fileName = this.sellerID + "soldItems.txt";
+        String fileName = this.sellerID + ".txt";
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.soldItems);
