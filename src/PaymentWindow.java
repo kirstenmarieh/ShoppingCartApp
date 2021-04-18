@@ -55,7 +55,7 @@ public class PaymentWindow {
 
         //upon checkout the cart must be emptied and the
         //seller inventory and product list must be updated
-        submit.addActionListener(new ActionListener() {
+        /*submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -101,6 +101,62 @@ public class PaymentWindow {
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
+
+                paymentWindow.dispose();
+
+            }});*/
+
+        submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    for (Product i : myCart.getCartContents())
+                    {
+                        String idNum = i.getProductID();
+                        for (Product p : productList)
+                        {
+                            if (idNum == p.getProductID())
+                            {
+                                products.updateAvailableQuantity(p.getProductID(), myCart.getQuantity(p));
+                            }
+                        }
+
+                        for (int i = 0; i < myCartContents.size(); i++) {
+                            try {
+                                SingletonProductList list = SingletonProductList.getInstance();
+                                list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
+
+                            } catch (Exception e1) {
+                                e1.printStackTrace();
+                            }
+                            for(Product k : productList)
+
+                        }
+
+                        try {
+                            // Creating And Adding Order And Emptying The Cart | Def Needs To Be Moved Somewhere Else
+
+                            Order newOrder = new Order(myCart);
+                            OrderList myOrders = new OrderList(userID);
+                            myOrders.addOrder(newOrder);
+                            SingletonProductList singleton = SingletonProductList.getInstance();
+                            for (Product p : myCart.getCartContents())
+                            {
+                                System.out.println(k.getProductName() + k.getAvailableQuantity());
+                                singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
+                            }
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        } catch (ClassNotFoundException classNotFoundException) {
+                            classNotFoundException.printStackTrace();
+                            myCart.emptyCart();
+
+                            BrowseWindow buyerWindow = new BrowseWindow(userID);
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                        }
+                    }
+                });
 
                 paymentWindow.dispose();
 
