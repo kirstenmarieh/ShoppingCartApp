@@ -110,7 +110,7 @@ public class BrowseWindow
                 JComboBox jcb = (JComboBox) e.getSource();
                 int strategySelected = jcb.getSelectedIndex();
 
-                if (strategySelected == 0) { //populate window normally
+                if (strategySelected == 0) { //populate window with default (no sort)
                     for (int i = 0; i < productList.size(); i++)
                     {
                         JPanel rowPanel = new JPanel();
@@ -221,7 +221,9 @@ public class BrowseWindow
                 else if (strategySelected == 1) { //populate contents sorted alphabetically by product name
                     System.out.println("Strategy: " + strategySelected);
                     Collections.sort(productList, sortByName.productSearch());
-
+                    columnPanel.removeAll();
+                    columnPanel.revalidate();
+                    //columnPanel.repaint();
                     for (int i = 0; i < productList.size(); i++) {
 
                         JPanel rowPanel = new JPanel();
@@ -261,9 +263,7 @@ public class BrowseWindow
 
                         JButton favoriteButton = new JButton("Add To Favorites");
 
-                        //System.out.println("\nFavorites:");
                         for (int k = 0; k < myFaveList.size(); k++) {
-                            //System.out.println(k + " : " + myFaveList.get(k).getProductName());
                             if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID())) {
                                 favoriteButton.setText("Unfavorite");
                                 break;
@@ -316,14 +316,15 @@ public class BrowseWindow
                     }
                     browseWindow.setVisible(true);
                 }
-                else //sort by price
-                { //populate contents sorted alphabetically by product name
+                else //populate contents sorted by price low to high
+                {
                     SortByPrice sortByPrice = new SortByPrice();
                     System.out.println("Strategy: " + strategySelected);
                     Collections.sort(productList, sortByPrice.productSearch());
                     for(Product l : productList)
                         System.out.println(l.getSellPrice());
-
+                    columnPanel.removeAll();
+                    columnPanel.revalidate();
                     for (int i = 0; i < productList.size(); i++) {
 
                         JPanel rowPanel = new JPanel();
@@ -363,9 +364,7 @@ public class BrowseWindow
 
                         JButton favoriteButton = new JButton("Add To Favorites");
 
-                        //System.out.println("\nFavorites:");
                         for (int k = 0; k < myFaveList.size(); k++) {
-                            //System.out.println(k + " : " + myFaveList.get(k).getProductName());
                             if (productList.get(i).getProductID().equals(myFaveList.get(k).getProductID())) {
                                 favoriteButton.setText("Unfavorite");
                                 break;
