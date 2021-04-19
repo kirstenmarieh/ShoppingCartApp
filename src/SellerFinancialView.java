@@ -41,10 +41,8 @@ public class SellerFinancialView extends JPanel implements ChangeListener {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        //JLabel costLabel = new JLabel("Costs: " + cost);
         costLabel.setText("Costs: " + String.valueOf(cost));
         revLabel.setText("Revenue: " + String.valueOf(revenue));
-        //System.out.println(profit);
         profitLabel.setText("Profits: " + String.valueOf(profit));
 
         costLabel.setForeground(this.color);
@@ -55,10 +53,16 @@ public class SellerFinancialView extends JPanel implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent c) {
         SellerInventory source = (SellerInventory) c.getSource();
+        if (cost<source.getCosts()) {
+        	this.color = java.awt.Color.RED;
+        }
+        else {
+        	this.color = java.awt.Color.GREEN;
+        }
         this.cost = source.getCosts();
         this.revenue = source.getRevenue();
         this.profit = source.getProfit();
-        this.color = java.awt.Color.RED;
+        
         this.repaint();
     }
 

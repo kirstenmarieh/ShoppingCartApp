@@ -1,4 +1,13 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
 
 public class SellerInventory implements Serializable {
 
@@ -19,23 +28,23 @@ public class SellerInventory implements Serializable {
     }
 
     public void calculateRevenue() {
-        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAvailableQuantity()));
-        revenue=0;
+        //revenue=0;
         inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
+        calculateProfits();
     }
 
     public void calculateCosts() {
 
-        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAvailableQuantity()));
+        costs=0;
         inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()*Product.getAmountInvoiced()));
 
         ChangeEvent event = new ChangeEvent(this);
 
-        System.out.println(listeners.size());
         for(SellerFinancialView n : listeners)
         {
             n.stateChanged(event);
         }
+        calculateProfits();
     }
 
     /*public void calculateCosts() {
