@@ -1,5 +1,3 @@
-import javax.swing.event.ChangeEvent;
-import java.io.*;
 import java.util.ArrayList;
 
 public class SellerInventory implements Serializable {
@@ -9,6 +7,7 @@ public class SellerInventory implements Serializable {
         this.sellerID = mySellerID;
         this.singleton = SingletonProductList.getInstance();
         this.inventory = singleton.getList(sellerID);
+        // System.out.println("from inventory: ");
         for(Product p: inventory)
         {
             System.out.println(p.getProductName()+ " " + p.getAvailableQuantity());
@@ -17,6 +16,12 @@ public class SellerInventory implements Serializable {
         this.calculateCosts();
         this.calculateRevenue();
         this.calculateProfits();
+    }
+
+    public void calculateRevenue() {
+        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAvailableQuantity()));
+        revenue=0;
+        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
     }
 
     public void calculateCosts() {
@@ -33,19 +38,15 @@ public class SellerInventory implements Serializable {
         }
     }
 
-    public void calculateRevenue() {
-        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAvailableQuantity()));
-        revenue=0;
-        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
-    }
-
     /*public void calculateCosts() {
-        for (Product p : inventory)
-        {
-            System.out.println(p.getProductName() + " " + p.getAvailableQuantity());
-        }
+       // System.out.println("from costs: ");
+       // for (Product p : inventory)
+        //{
+         //   System.out.println(p.getProductName() + " " + p.getAvailableQuantity());
+        //}
 
         inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()) * Product.getAvailableQuantity());
+       // System.out.println("costs : " + costs);
         ChangeEvent event = new ChangeEvent(this);
 
         System.out.println(listeners.size());
@@ -63,7 +64,6 @@ public class SellerInventory implements Serializable {
         mine = this.getSoldItems(sellerID);
         soldItems.forEach(Product-> this.revenue = revenue + (Product.getSellPrice()*this.getNumberSold(Product)));
     }*/
-
 
     public void calculateProfits() {
         this.profit = this.revenue - this.costs;
@@ -91,8 +91,7 @@ public class SellerInventory implements Serializable {
     public ArrayList<Product> getSoldItems(String sellerid) throws IOException {
 
         try {
-
-           String fileName = this.sellerID + "soldItems.txt";
+            String fileName = this.sellerID + "soldItems.txt";
             File file = new File(fileName);
             if (file.exists())
             {
@@ -115,7 +114,6 @@ public class SellerInventory implements Serializable {
 
     public void saveSoldItems() throws IOException {
         String fileName = this.sellerID + "soldItems.txt";
-        String fileName = this.sellerID + ".txt";
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.soldItems);
@@ -156,7 +154,6 @@ public class SellerInventory implements Serializable {
         int count = 0;
         for (Product i : soldItems)
         {
-            System.out.println("from get num sold: " + p.getProductName());
             if (i.getProductID() == p.getProductID())
             {
                 count++;
@@ -177,5 +174,6 @@ public class SellerInventory implements Serializable {
     private SingletonProductList singleton;
     private ArrayList<SellerFinancialView> listeners;
     private ArrayList<Product> soldItems = new ArrayList<>();
+
 
 }
