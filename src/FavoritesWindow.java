@@ -44,6 +44,33 @@ public class FavoritesWindow extends JFrame{
         addAllButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    FavoritesBundle myBundle = new FavoritesBundle("Cafe Bustello", "111", "Coffee", 5.0D,
+                            "instant coffee", 3, 3.0D, "1s", userID); //LOOKS TERRIBLE, BUT WORKS?
+                    for (Product p: myFaves)
+                    {
+                        myBundle.add(p); //THIS WORKS
+                    }
+                    myCart.addItem(new DiscountedProduct("Cafe Bustello", "111", "Coffee", 5.0D,  //THIS DOES NOT WORK
+                            "instant coffee", 3, 3.0D, "1s", myBundle));
+                    //System.out.println(myBundle.getSellPrice());
+                    //DiscountedProduct discounted = new DiscountedProduct("", "", "", 5.0D, "", 3, 3.0D, "", myBundle);
+                    //System.out.println("price: " + discounted.getSellPrice());
+                    //myCart.addItem(discounted);
+
+                    for(Product p : myCart.getCartContents())
+                    {
+                        System.out.println(p.getProductName());
+                    }
+
+
+
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
 
             }
         });
@@ -94,6 +121,10 @@ public class FavoritesWindow extends JFrame{
             JLabel productPrice = new JLabel("Price : $" + df.format(p.getSellPrice()));//productList.get(i).getPrice()));
             productPrice.setBounds(50, 40, 100, 50);
             rowPanel.add(productPrice);
+
+            JLabel nameLabel = new JLabel(p.getProductName());
+            nameLabel.setBounds(50, 20, 100, 50);
+            rowPanel.add(nameLabel);
 
             // JLabel For Product Description
             JLabel productDescription = new JLabel("<html>" + p.getProductDescription() + "</html>");//productList.get(i).getProductDescription()
