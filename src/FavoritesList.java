@@ -73,8 +73,10 @@ public class FavoritesList implements Serializable {
             String fileName=userid+".txt";
             File file=new File(fileName);
             if(file.exists()) {
+
                 FileInputStream fis = new FileInputStream(fileName);
                 ObjectInputStream ois = new ObjectInputStream(fis);
+
                 this.faves = (ArrayList<Product>) ois.readObject();
             }}
         catch (EOFException e)
