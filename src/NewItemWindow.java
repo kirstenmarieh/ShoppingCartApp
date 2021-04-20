@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * constructs and displays a window for a seller to add a new item.
+ */
 public class NewItemWindow extends JFrame{
 
     public NewItemWindow(String sellerID, SellerFinancialView sfv)  throws IOException, ClassNotFoundException {
@@ -13,8 +16,6 @@ public class NewItemWindow extends JFrame{
 
         final JFrame frame = new JFrame("New Listing");
         frame.setBounds(100,100,800,575);
-
-        //JButton backButton = new JButton("Back");
 
         JLabel titleLabel = new JLabel("New Listing");
         frame.add(titleLabel, BorderLayout.NORTH);
@@ -63,7 +64,6 @@ public class NewItemWindow extends JFrame{
         JButton submitButton = new JButton("Submit");
 
         SellerInventory inventory = new SellerInventory(sellerid);
-        //System.out.println(inventory.getCosts());
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -91,7 +91,6 @@ public class NewItemWindow extends JFrame{
                     classNotFoundException.printStackTrace();
                 }
             }
-
         });
 
         frame.add(submitButton, BorderLayout.SOUTH);

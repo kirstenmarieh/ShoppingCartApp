@@ -4,6 +4,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Constructs and displays a payment window for the user to enter payment information.
+ */
 public class PaymentWindow {
 
     public PaymentWindow(String userid) throws IOException, ClassNotFoundException {
@@ -28,7 +31,7 @@ public class PaymentWindow {
         JTextField ccNumberField = new JTextField(0);
         ccNumberField.setPreferredSize(new Dimension(400,20));
         ccNumberField.setMaximumSize( ccNumberField.getPreferredSize() );
-        //userName.setBounds(0,0,50,50);
+
         JLabel secNumLabel = new JLabel("CVV: ");
         JTextField secNumField = new JTextField(0);
         secNumField.setPreferredSize(new Dimension(400,20));
@@ -52,60 +55,6 @@ public class PaymentWindow {
         paymentWindow.getContentPane().add(panel);
 
         JButton submit = new JButton("Confirm");
-
-        //upon checkout the cart must be emptied and the
-        //seller inventory and product list must be updated
-        /*submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    // Creating And Adding Order And Emptying The Cart | Def Needs To Be Moved Somewhere Else
-
-                    Order newOrder = new Order(myCart);
-                    OrderList myOrders = new OrderList(userID);
-                    myOrders.addOrder(newOrder);
-                    SingletonProductList singleton = SingletonProductList.getInstance();
-
-                    // int i = 0;
-                    for (Product p : myCart.getCartContents())
-                    {
-
-                        singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
-                        SingletonProductList newS = SingletonProductList.getInstance();
-                        SellerInventory inventory = new SellerInventory(p.getSellerID());
-                        ArrayList<Product> mine = new ArrayList<>();
-                        mine = inventory.getSoldItems(p.getSellerID());
-                        inventory.addSoldItem(p);
-                        //for (Product k : inventory.getSoldItems(p.getSellerID()))//inventory.getSoldItems(p.getSellerID()))
-                        // {
-                        //   if(k.getProductID() == p.getProductID())
-                        //         System.out.println("sold: " +  " " + p.getProductName() + " " + inventory.getNumberSold(k));
-                        // }
-                        //i++;
-                    }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-                try {
-                    myCart.emptyCart();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-                try {
-                    BrowseWindow buyerWindow = new BrowseWindow(userID);
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                } catch (ClassNotFoundException classNotFoundException) {
-                    classNotFoundException.printStackTrace();
-                }
-
-                paymentWindow.dispose();
-
-            }});*/
-
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -114,12 +63,8 @@ public class PaymentWindow {
                 	System.out.println("Mycartcontents size: "+myCart.getCartContents().size());
                     for (int k = 0; k < myCartContents.size(); k++)
                     {
-                        
                         SingletonProductList si = SingletonProductList.getInstance();
-                      
                         si.sellQuantity(myCartContents.get(k).getProductID(), 1);
-                        
-                        
                         try {
                             Order newOrder = new Order(myCart);
                             OrderList myOrders = new OrderList(userID);

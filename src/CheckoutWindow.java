@@ -6,6 +6,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * constructs and displays a checkout window.
+ */
 public class CheckoutWindow {
     public CheckoutWindow(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;
@@ -91,11 +94,6 @@ public class CheckoutWindow {
 
             });
             rowPanel.add(addProductButton);
-
-
-            // Add To Cart Button
-
-            //rowPanel.add(confirmButton);
 
             // JLabel For Price
             JLabel productPrice = new JLabel("Price : $" + String.valueOf(myCartContents.get(i).getSellPrice()));//productList.get(i).getPrice()));

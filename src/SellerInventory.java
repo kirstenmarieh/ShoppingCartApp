@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 
+
 public class SellerInventory implements Serializable {
 
     public SellerInventory(String mySellerID) throws IOException, ClassNotFoundException {

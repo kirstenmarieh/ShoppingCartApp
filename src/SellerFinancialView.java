@@ -5,10 +5,18 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Dimension;
 
-
+/**
+ * a class that constructs and updates the seller financial information.
+ */
 public class SellerFinancialView extends JPanel implements ChangeListener {
 
-    //public SellerFinancialView(SellerInventory s, double cost, Color color)
+    /**
+     * constructs the seller financial information.
+     * @param cost the costs incurred by the seller.
+     * @param revenue the revenue made by the seller.
+     * @param profit the profits made by the seller.
+     * @param color the color to change the text upon changes to cost.
+     */
     public SellerFinancialView(double cost, double revenue, double profit, Color color) {
         this.cost = cost;
         this.revenue = revenue;
@@ -28,8 +36,6 @@ public class SellerFinancialView extends JPanel implements ChangeListener {
         this.revLabel = revLabel;
         financePanel.add(revLabel);
 
-
-
         JLabel profLabel = new JLabel("Profits: " + profit);
         this.profitLabel = profLabel;
         financePanel.add(profLabel);
@@ -37,19 +43,26 @@ public class SellerFinancialView extends JPanel implements ChangeListener {
         add(financePanel);
     }
 
-
+    /**
+     * paints and repaints the cost label
+     * @param g, the Graphics
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
         costLabel.setText("Costs: " + String.valueOf(cost));
         revLabel.setText("Revenue: " + String.valueOf(revenue));
         profitLabel.setText("Profits: " + String.valueOf(profit));
-
         costLabel.setForeground(this.color);
         g.setColor(this.color);
     }
 
-
+    /**
+     * tells the financial view that the state has changed.
+     * @param c the changeevent to process.
+     * @precondition: a change in the inventory has occurred.
+     * @postcondition: the cost label color and text changes.
+     */
     @Override
     public void stateChanged(ChangeEvent c) {
         SellerInventory source = (SellerInventory) c.getSource();
@@ -62,7 +75,6 @@ public class SellerFinancialView extends JPanel implements ChangeListener {
         this.cost = source.getCosts();
         this.revenue = source.getRevenue();
         this.profit = source.getProfit();
-        
         this.repaint();
     }
 

@@ -43,23 +43,36 @@ public class DiscountedProduct extends Product{
         return 1;
     }
 
+
+    /**Returns product name
+     * @return int product name
+     * */
     @Override
     public String getProductName() {
 
         return super.getProductName();
     }
 
-
+    /**Returns product ID
+     * @return int product ID
+     * */
     @Override
     public String getProductID(){
         return super.getProductID();
     }
 
+
+    /**Returns seller ID
+     * @return string seller ID
+     * */
     @Override
     public String getSellerID() {
         return super.getSellerID();
     }
 
+    /**Returns product invoice price
+     * @return double product invoice price
+     * */
     @Override
     public Double getInvoicePrice() {
         return super.getInvoicePrice();

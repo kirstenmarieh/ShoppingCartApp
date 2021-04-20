@@ -49,19 +49,15 @@ public class FavoritesWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    FavoritesBundle myBundle = new FavoritesBundle(userID); //LOOKS TERRIBLE, BUT WORKS?
+                    FavoritesBundle myBundle = new FavoritesBundle(userID);
                     for (Product p: myFaves)
                     {
-                        myBundle.add(p); //THIS WORKS
+                        myBundle.add(p);
                     }
                     Product d = new DiscountedProduct(myBundle.getProductName(), myBundle.getProductID(), myBundle.getType(), myBundle.getSellPrice(),
                             myBundle.getProductDescription(), myBundle.getAvailableQuantity(), myBundle.getInvoicePrice(), myBundle.getSellerID());
-                    myCart.addItem(d);  //THIS DOES NOT WORK
-                    //  "instant coffee", 3, 3.0D, "1s", myBundle));
-                    //System.out.println(myBundle.getSellPrice());
-                    //DiscountedProduct discounted = new DiscountedProduct("", "", "", 5.0D, "", 3, 3.0D, "", myBundle);
-                    //System.out.println("price: " + discounted.getSellPrice());
-                    //myCart.addItem(discounted);
+                    myCart.addItem(d);
+
 
                     for(Product p : myCart.getCartContents())
                     {
@@ -73,8 +69,6 @@ public class FavoritesWindow extends JFrame{
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
-
             }
         });
         favoritesWindow.add(addAllButton);
@@ -120,8 +114,9 @@ public class FavoritesWindow extends JFrame{
             });
             rowPanel.add(addToCartButton);
             DecimalFormat df = new DecimalFormat("#.00");
+
             // JLabel For Price
-            JLabel productPrice = new JLabel("Price : $" + df.format(p.getSellPrice()));//productList.get(i).getPrice()));
+            JLabel productPrice = new JLabel("Price : $" + df.format(p.getSellPrice()));
             productPrice.setBounds(50, 40, 100, 50);
             rowPanel.add(productPrice);
 
@@ -130,7 +125,7 @@ public class FavoritesWindow extends JFrame{
             rowPanel.add(nameLabel);
 
             // JLabel For Product Description
-            JLabel productDescription = new JLabel("<html>" + p.getProductDescription() + "</html>");//productList.get(i).getProductDescription()
+            JLabel productDescription = new JLabel("<html>" + p.getProductDescription() + "</html>");
             productDescription.setBounds(50, 40, 500, 200);
             rowPanel.add(productDescription);
         }
