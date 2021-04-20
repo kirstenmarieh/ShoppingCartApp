@@ -64,12 +64,14 @@ public class ShoppingCart implements Serializable{
     }
 
     public void removeItem(Product p) throws IOException {
+        for(Product l: this.cartContents)
+            System.out.println(l.getProductName());
         this.cartContents.remove(p);
         this.saveCart();
     }
 
     public void emptyCart() throws IOException {
-        String fileName = userid + ".txt";
+        String fileName = userid + "cart.txt";
         File file = new File(fileName);
         if (file.exists())
         {
