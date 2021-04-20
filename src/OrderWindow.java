@@ -11,6 +11,13 @@ import java.util.ArrayList;
 
 public class OrderWindow
 {
+    /**
+     * Creates And Displays A Window Containing All Of A User's 
+     * Previous Orders
+     * @param userID ID of Buyer Account Currently Signed In
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     public OrderWindow(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;  
         this.myOrders = new OrderList(userid);
@@ -22,7 +29,10 @@ public class OrderWindow
         orderWindow.setBounds(100, 100, 800, 550);
         orderWindow.setLayout(null);
 
-        // Back Button - Needs Event Listener To Return To Browse Window
+        /**
+         * Creates And Adds A Back Button With An ActionListener
+         * To Return Back To The BrowseWindow
+         */
         JButton backButton = new JButton("Back");
         backButton.setBounds(0, 0, 150, 25);
         orderWindow.add(backButton);
@@ -42,6 +52,10 @@ public class OrderWindow
                 }
         });
 
+        /**
+         * Creates And Adds A Scroll-able UI To Contain The Orders
+         * In Order To Account For Any Number Of Orders To Be Displayed
+         */
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 75, 760, 400);
         orderWindow.add(scrollPane);
@@ -55,7 +69,10 @@ public class OrderWindow
         columnPanel.setLayout(new GridLayout(0, 1, 0, 1));
         columnPanel.setBackground(Color.gray);
 
-        
+        /**
+         * Iterates Through The User's Previous Orders 
+         * Creating A JPanel TO Display The Information For Each One
+         */
         for (int i = 0; i < myOrderList.size(); i++)
         { 
             ArrayList<Product> orderProducts = myOrderList.get(i).getOrderProducts();
@@ -76,6 +93,11 @@ public class OrderWindow
 
             JLabel productText;
             
+            /**
+             * Iterates Through Each Product Within An Order
+             * Adding JLabels Containing The Product Name And Price 
+             * To The JPanel
+             */
             for (int j = 0; j < orderProducts.size(); j++)
             {
                 productText = new JLabel(orderProducts.get(j).getProductName() + 
@@ -84,8 +106,9 @@ public class OrderWindow
                 rowPanel.add(productText);
             }
 
-            // JLabel For Price
-            JLabel orderPrice = new JLabel("Order Total : $" + df.format(myOrderList.get(i).getOrderPrice()));
+            // JLabel For Total Price Of An Order
+            JLabel orderPrice = new JLabel("Order Total : $" + 
+                    df.format(myOrderList.get(i).getOrderPrice()));
             orderPrice.setBounds(400, 50, 200, 50);
             rowPanel.add(orderPrice);
         }
