@@ -28,8 +28,13 @@ public class SellerInventory implements Serializable {
     }
 
     public void calculateRevenue() {
-        //revenue=0;
-        inventory.forEach(Product -> this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold()));
+        revenue=0;
+        
+        inventory.forEach(Product -> {
+        	System.out.println("sold:"+Product.getAmountSold());
+        	this.revenue = revenue + (Product.getSellPrice()*Product.getAmountSold());
+        });
+        
         calculateProfits();
     }
 

@@ -57,8 +57,8 @@ public class SellerInventoryWindow extends JFrame{
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
-                //frame.setVisible(false);
-                //frame.dispose();
+                frame.setVisible(false);
+                frame.dispose();
             }
         });
         productPanel.add(listingButton);

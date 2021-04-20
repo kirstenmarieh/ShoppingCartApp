@@ -110,36 +110,16 @@ public class PaymentWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    for (Product i : myCart.getCartContents())
+
+                	System.out.println("Mycartcontents size: "+myCart.getCartContents().size());
+                    for (int k = 0; k < myCartContents.size(); k++)
                     {
-                        String idNum = i.getProductID();
-
-                        for (Product p : productList)
-                        {
-                            if (idNum == p.getProductID())
-                            {
-                                products.updateAvailableQuantity(p.getProductID(), myCart.getQuantity(p));
-                                p.sell(1);
-                            }
-                        }
-
+                        
                         SingletonProductList si = SingletonProductList.getInstance();
-                        ArrayList<Product> newlist = new ArrayList<>();
-                        newlist = si.getList("1s");
-                        for (Product c : newlist)
-                            System.out.println("final: " + c.getProductName() + " " + c.getAvailableQuantity());
-
-                        for (int k = 0; k < myCartContents.size(); k++)
-                        {
-                            try {
-                                SingletonProductList list = SingletonProductList.getInstance();
-                                list.sellQuantity(myCartContents.get(k).getProductID(), myCartContents.get(k).getAvailableQuantity());
-
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-
+                      
+                        si.sellQuantity(myCartContents.get(k).getProductID(), 1);
+                        
+                        
                         try {
                             Order newOrder = new Order(myCart);
                             OrderList myOrders = new OrderList(userID);

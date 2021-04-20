@@ -64,7 +64,6 @@ public class SingletonProductList implements Serializable {
             if (productID.equals(p.getProductID())) {
                 if(p.getAvailableQuantity()>=count) {
                     p.sell(count);
-
                 }
                 else {
                     p.sell(p.getAvailableQuantity());
@@ -125,19 +124,24 @@ public class SingletonProductList implements Serializable {
      * @throws ClassNotFoundException
      */
     public ArrayList<Product> getList(String userID) throws IOException, ClassNotFoundException {
-
-        FileInputStream fis = new FileInputStream("globalproductlist.txt");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        productList = (ArrayList<Product>) ois.readObject();
-        ois.close();
-
-        ArrayList<Product> personalProductList = new ArrayList<>();
-        for (Product p : productList)
-            if (p.getSellerID().equals(userID)) {
-                personalProductList.add(p);
-            }
-        ois.close();
-        return personalProductList;
+		File file = new File("globalproductlist.txt");
+		if (file.exists())
+		{
+	        FileInputStream fis = new FileInputStream("globalproductlist.txt");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        productList = (ArrayList<Product>) ois.readObject();
+	        ois.close();
+	
+	        ArrayList<Product> personalProductList = new ArrayList<>();
+	        for (Product p : productList)
+	            if (p.getSellerID().equals(userID)) {
+	                personalProductList.add(p);
+	            }
+	        ois.close();
+	        return personalProductList;
+		}
+		return new ArrayList<Product>();
+        
     }
 
     private static SingletonProductList instance = null;
