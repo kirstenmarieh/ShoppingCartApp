@@ -45,14 +45,15 @@ public class FavoritesWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    FavoritesBundle myBundle = new FavoritesBundle("Cafe Bustello", "111", "Coffee", 5.0D,
-                            "instant coffee", 3, 3.0D, "1s", userID); //LOOKS TERRIBLE, BUT WORKS?
+                    FavoritesBundle myBundle = new FavoritesBundle(userID); //LOOKS TERRIBLE, BUT WORKS?
                     for (Product p: myFaves)
                     {
                         myBundle.add(p); //THIS WORKS
                     }
-                    myCart.addItem(new DiscountedProduct("Cafe Bustello", "111", "Coffee", 5.0D,  //THIS DOES NOT WORK
-                            "instant coffee", 3, 3.0D, "1s", myBundle));
+                    Product d = new DiscountedProduct(myBundle.getProductName(), myBundle.getProductID(), myBundle.getType(), myBundle.getSellPrice(),
+                            myBundle.getProductDescription(), myBundle.getAvailableQuantity(), myBundle.getInvoicePrice(), myBundle.getSellerID());
+                    myCart.addItem(d);  //THIS DOES NOT WORK
+                    //  "instant coffee", 3, 3.0D, "1s", myBundle));
                     //System.out.println(myBundle.getSellPrice());
                     //DiscountedProduct discounted = new DiscountedProduct("", "", "", 5.0D, "", 3, 3.0D, "", myBundle);
                     //System.out.println("price: " + discounted.getSellPrice());
@@ -60,10 +61,8 @@ public class FavoritesWindow extends JFrame{
 
                     for(Product p : myCart.getCartContents())
                     {
-                        System.out.println(p.getProductName());
+                        System.out.println("in cart: " + p.getProductName());
                     }
-
-
 
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
