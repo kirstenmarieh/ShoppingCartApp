@@ -38,6 +38,7 @@ public class BrowseWindow
             } catch (ClassNotFoundException classNotFoundException) {
                 classNotFoundException.printStackTrace();
             }
+			browseWindow.dispose();
         });
         browseWindow.add(viewFaveButton);
 
