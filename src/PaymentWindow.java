@@ -113,37 +113,40 @@ public class PaymentWindow {
                     for (Product i : myCart.getCartContents())
                     {
                         String idNum = i.getProductID();
+
                         for (Product p : productList)
                         {
                             if (idNum == p.getProductID())
                             {
                                 products.updateAvailableQuantity(p.getProductID(), myCart.getQuantity(p));
+                                p.sell(1);
                             }
                         }
 
-                        for (int i = 0; i < myCartContents.size(); i++) 
+                        SingletonProductList si = SingletonProductList.getInstance();
+                        ArrayList<Product> newlist = new ArrayList<>();
+                        newlist = si.getList("1s");
+                        for (Product c : newlist)
+                            System.out.println("final: " + c.getProductName() + " " + c.getAvailableQuantity());
+
+                        for (int k = 0; k < myCartContents.size(); k++)
                         {
                             try {
                                 SingletonProductList list = SingletonProductList.getInstance();
-                                list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
+                                list.sellQuantity(myCartContents.get(k).getProductID(), myCartContents.get(k).getAvailableQuantity());
 
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
-                            //for(Product k : productList)
-
                         }
 
                         try {
-                            // Creating And Adding Order And Emptying The Cart | Def Needs To Be Moved Somewhere Else
-
                             Order newOrder = new Order(myCart);
                             OrderList myOrders = new OrderList(userID);
                             myOrders.addOrder(newOrder);
                             SingletonProductList singleton = SingletonProductList.getInstance();
                             for (Product p : myCart.getCartContents())
                             {
-                                System.out.println(k.getProductName() + k.getAvailableQuantity());
                                 singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
                             }
                         } catch (IOException ioException) {
@@ -151,16 +154,17 @@ public class PaymentWindow {
                         } catch (ClassNotFoundException classNotFoundException) {
                             classNotFoundException.printStackTrace();
                             myCart.emptyCart();
-
                             BrowseWindow buyerWindow = new BrowseWindow(userID);
                         } catch (Exception e2) {
                             e2.printStackTrace();
                         }
                     }
-                });
-
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (ClassNotFoundException classNotFoundException) {
+                    classNotFoundException.printStackTrace();
+                }
                 paymentWindow.dispose();
-
             }});
 
         JButton cancel = new JButton("Cancel");
@@ -177,7 +181,6 @@ public class PaymentWindow {
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
-
             }});
 
         paymentWindow.add(cancel);
