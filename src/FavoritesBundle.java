@@ -1,24 +1,38 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * constructs and manipulates a bundled product from the buyer's favorites list.
+ */
 public class FavoritesBundle extends Product{
 
-    public FavoritesBundle(String userID) throws IOException, ClassNotFoundException {//String name, String productID, String prodType, double salePrice, String desc, int available, double invPrice, String sellerId, String userID
-        super();//name, productID, prodType, salePrice, desc, available, invPrice, sellerId
+    /**
+     *constructs a bundled product using the buyer's favorites list.
+     * @param userID the id of the user to get the favorites of.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @precondition the favoriteslist is not empty.
+     */
+    public FavoritesBundle(String userID) throws IOException, ClassNotFoundException {
         this.userid = userID;
         FavoritesList faves = new FavoritesList(userid);
-        faveList = faves.getFaves();
-        // for (Product p : faveList)
-        // {
-        //     (this.products).add(p);
-        // }
     }
 
+    /**
+     * adds a product to the bundle.
+     * @param p the product to add.
+     */
     public void add(Product p)
     {
         products.add(p);
     }
 
+    /**
+     * calculates the sale price of all aggregated items as one.
+     * @return price, the total price of the bundle.
+     * @precondition the favoriteslist is not empty.
+     * @postcondition the price is returned as a double.
+     */
     @Override
     public double getSellPrice()
     {
@@ -30,16 +44,20 @@ public class FavoritesBundle extends Product{
         return price;
     }
 
-    @Override
-    public Product getProduct() {
-        return this;
-    }
-
+    /**
+     * returns the number of one unique discounted products available.
+     * @return 1, the number of that bundle that exist.
+     */
     @Override
     public int getAvailableQuantity() {
         return 1;
     }
 
+    /**
+     * creates the name of the product bundle.
+     * @return bundleName, the aggregated name of the products.
+     * @precondition bundle size > 0.
+     */
     @Override
     public String getProductName() {
         String bundleName = "";
@@ -50,11 +68,11 @@ public class FavoritesBundle extends Product{
         return bundleName;
     }
 
-    @Override
-    public void setAvailableQuantity(int quantity) {
 
-    }
-
+    /**
+     * gets the id number of the product
+     * @return id, the concatenated id of all products in the bundle.
+     */
     @Override
     public String getProductID(){
         String id = "";
@@ -65,6 +83,10 @@ public class FavoritesBundle extends Product{
         return id;
     }
 
+    /**
+     * creates the sellerId for the bundle.
+     * @return sellerID, the aggregated sellerIDs of the products in the bundle.
+     */
     @Override
     public String getSellerID() {
         String sellerID = "";
@@ -75,6 +97,10 @@ public class FavoritesBundle extends Product{
         return sellerID;
     }
 
+    /**
+     * calculates the invoice price of the bundle.
+     * @return invPrice, the summed prices of all products in the bundle.
+     */
     @Override
     public Double getInvoicePrice() {
         double invPrice = 0;
@@ -85,17 +111,28 @@ public class FavoritesBundle extends Product{
         return invPrice;
     }
 
+    /**
+     * gets the type of the product.
+     * @return "FavoritesBundle", the product type.
+     */
     @Override
     public String getType() {
         return "FavoritesBundle";
     }
 
+    /**
+     * gets the description of the product
+     * @return "FavoritesBundle", the product description.
+     */
     @Override
     public String getProductDescription(){
         return "FavoritesBundle";
     }
 
-    //to be used by checkoutwindow
+    /**Decreases number of available and increases sell count tracker
+     * @precondition amount is less than 0, amount is less than or equal to quantityAvailable
+     * @return true if successful, false otherwise
+     * */
     @Override
     public void sell(int amount) {
         for (Product p : products)
@@ -105,11 +142,17 @@ public class FavoritesBundle extends Product{
         }
     }
 
+    /**Returns the quantity of this product that has been sold
+     * @return amount of this product sold
+     * */
     @Override
     public int getAmountSold() {
         return 1;
     };
 
+    /**Returns amount of this Product invoiced by the seller
+     * @return int quantity Invoiced
+     * */
     @Override
     public int getAmountInvoiced() {
         return 1;
@@ -118,7 +161,6 @@ public class FavoritesBundle extends Product{
     private ArrayList<Product> faveList = new ArrayList<>();
     private String userid;
     private ArrayList<Product> products = new ArrayList<>();
-    //private static final long serialVersionUID = 7058069280053434660L;
     private int quantitySold;
     private int availableQuantity;
 }
