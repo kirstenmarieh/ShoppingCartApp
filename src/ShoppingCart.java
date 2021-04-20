@@ -37,7 +37,7 @@ public class ShoppingCart implements Serializable{
     public ArrayList<Product> getCartContents() throws IOException, ClassNotFoundException {
         try {
             //String fileName = userid + ".txt";
-            String fileName=userid+".txt";
+            String fileName=userid+"cart.txt";
             File file=new File(fileName);
             if(file.exists()) {
                 FileInputStream fis = new FileInputStream(fileName);//fileName);
@@ -54,7 +54,7 @@ public class ShoppingCart implements Serializable{
     }
 
     public void saveCart() throws IOException {
-        String fileName = userid + ".txt";
+        String fileName = userid + "cart.txt";
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.cartContents);
@@ -67,8 +67,8 @@ public class ShoppingCart implements Serializable{
         this.cartContents.remove(p);
         this.saveCart();
     }
-	
-	 public void emptyCart() throws IOException {
+
+    public void emptyCart() throws IOException {
         String fileName = userid + ".txt";
         File file = new File(fileName);
         if (file.exists())
