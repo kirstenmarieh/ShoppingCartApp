@@ -30,10 +30,7 @@ public class FavoritesBundle extends Product{
         return price;
     }
 
-    @Override
-    public Product getProduct() {
-        return this;
-    }
+
 
     @Override
     public int getAvailableQuantity() {
@@ -97,12 +94,12 @@ public class FavoritesBundle extends Product{
 
     //to be used by checkoutwindow
     @Override
-    public void sell(int amount) {
+    public boolean sell(int amount) {
         for (Product p : products)
         {
-            quantitySold+=amount;
-            availableQuantity-=amount;
+            p.sell(amount);
         }
+        return true;
     }
 
     @Override
