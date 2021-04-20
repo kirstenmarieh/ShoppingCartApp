@@ -63,8 +63,6 @@ public class SellerInventoryWindow extends JFrame{
         });
         productPanel.add(listingButton);
 
-
-
         for(int i = 0; i < myProducts.size(); i++)
         {
             int k = i;
@@ -95,9 +93,7 @@ public class SellerInventoryWindow extends JFrame{
                         globalSingleton.addOrSubtractQuantity(myProducts.get(k).getProductID(), 1);
                         ArrayList<Product> updatedStuff = globalSingleton.getList(sellerid);
                         SellerInventory newInventory = new SellerInventory(sellerid);
-
                         newInventory.addChangeListener(newFV);
-
                         String newquantity = String.valueOf(updatedStuff.get(k).getAvailableQuantity());
                         quantityLabel.setText("Quantity: " + newquantity);
                         newInventory.calculateCosts();
