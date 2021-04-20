@@ -1,5 +1,9 @@
 import java.io.Serializable;
 
+
+/**
+ * The Product class stores data on a single product. Name, seller ID, quantity, etc.
+ * */
 public class Product implements Serializable {
     private String productDescription;
     private String productName;
@@ -12,6 +16,18 @@ public class Product implements Serializable {
     private int quantitySold;
     private int quantityInvoiced;
     
+    /** 
+     * Product constructor.
+     * @param name Name of new Product
+     * @param productID ID of Product
+     * @param prodType Product category of new Product. Unused right now I think other than display in popup
+     * @param salePrice the sale price
+     * @param desc A description of the product
+     * @param available the starting quantity of items available
+     * @param invPrice invoice price
+     * @param sellerId the seller's ID  
+     * @postcondition new Product has been constructed
+     * */
     public Product(String name, String productID, String prodType, double salePrice, String desc, int available, double invPrice, String sellerId) {
         this.availableQuantity = available;
         this.productDescription = desc;
@@ -25,58 +41,97 @@ public class Product implements Serializable {
         quantityInvoiced=available;
     }
 
-    public Product getProduct() {
-        return this;
-    }
-
+    /**
+     * Returns the current quantity of products available
+     * @return quantity
+     * 
+     * */
     public int getAvailableQuantity() {
         return this.availableQuantity;
     }
 
+    /**Returns product name
+     * @return name
+     * */
     public String getProductName() {
         return this.productName;
     }
     
-    //to be used from sellerInventory
+    /**Sets quantity available. Also changes the amount invoiced by the amount changed.
+     * @precondition quantity >= 0
+     * @param quantity sets quantityAvailable to this number
+     * @postcondition availableQuantity is set to quantity, invoiced quantity has been changed by correct amount.
+     * */
     public void setAvailableQuantity(int quantity) {
-        quantityInvoiced+=(quantity-availableQuantity);
+        if(quantity<0)return;
+    	quantityInvoiced+=(quantity-availableQuantity);
     	this.availableQuantity = quantity;
     }
 
+    /**Returns product ID
+     * @return int product ID
+     * */
     public String getProductID() {
         return this.productId;
     }
 
+    /**Returns user ID of seller of product
+     * @return seller ID
+     * */
     public String getSellerID() {
         return this.sellerID;
     }
 
+    /**Returns product invoice price
+     * @return invoice price
+     * */
     public Double getInvoicePrice() {
         return this.invoicePrice;
     }
 
+    /**Returns product selling price
+     * @return sellPrice
+     * */
     public double getSellPrice() {
         return this.sellPrice;
     }
 
+    /**Returns product name
+     * @return name
+     * */
     public String getType() {
         return this.type;
     }
 
+    /**Returns Product description String
+     * @return desc string
+     * */
     public String getProductDescription(){
         return this.productDescription;
     }
     
-    //to be used by checkoutwindow
-    public void sell(int amount) {
+    /**Decreases number of available and increases sell count tracker
+     * @precondition amount is less than 0, amount is less than or equal to quantityAvailable
+     * @return true if successful, false otherwise
+     * */
+    public boolean sell(int amount) {
+    	if(amount<0) return false;
+    	if(availableQuantity<amount) return false;
     	quantitySold+=amount;
     	availableQuantity-=amount;
+    	return true;
     }
     
-    
+    /**Returns the quantity of this product that has been sold
+     * @return amount of this product sold
+     * */
     public int getAmountSold() {
     	return quantitySold;
     };
+    
+    /**Returns amount of this Product invoiced by the seller
+     * @return int quantity Invoiced
+     * */
     public int getAmountInvoiced() {
     	return quantityInvoiced;
     }
