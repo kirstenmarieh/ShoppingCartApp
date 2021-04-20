@@ -121,7 +121,8 @@ public class PaymentWindow {
                             }
                         }
 
-                        for (int i = 0; i < myCartContents.size(); i++) {
+                        for (int i = 0; i < myCartContents.size(); i++) 
+                        {
                             try {
                                 SingletonProductList list = SingletonProductList.getInstance();
                                 list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
@@ -129,7 +130,7 @@ public class PaymentWindow {
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
-                            for(Product k : productList)
+                            //for(Product k : productList)
 
                         }
 
