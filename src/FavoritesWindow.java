@@ -7,6 +7,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * constructs a window for displaying a buyers favorite items, allows functionality to add to cart,
+ * and allows functionality to add all items on the list to the cart.
+ */
 public class FavoritesWindow extends JFrame{
 
     public FavoritesWindow (String userID) throws IOException, ClassNotFoundException {

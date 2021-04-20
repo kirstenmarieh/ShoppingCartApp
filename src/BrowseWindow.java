@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * constructs a displays a browse window for the buyer to view what is on sale. Allows for adding to favorites, adding to cart,
+ * displays cart total, displays an option to view favorites, and allows for unfavoriteing.
+ */
 public class BrowseWindow
 {
     public BrowseWindow(String userID) throws IOException, ClassNotFoundException {
