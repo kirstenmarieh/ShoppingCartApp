@@ -112,31 +112,13 @@ public class CheckoutWindow {
         JButton confirmButton = new JButton("Confirm");
         confirmButton.setBounds(600, 0, 100, 50);
         confirmButton.addActionListener(e -> {
-
-        	for (int i = 0; i < myCartContents.size(); i++) 
-                {
-        		try {
-					SingletonProductList list = SingletonProductList.getInstance();
-					list.sellQuantity(myCartContents.get(i).getProductID(), myCartContents.get(i).getAvailableQuantity());
-                                        
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-        		
-        	}
-                
-                try {
-                    // Creating And Adding Order And Emptying The Cart | Def Needs To Be Moved Somewhere Else 
-                    //Since User Still Needs To Enter Payment Info
-                    Order newOrder = new Order(myCart);
-                    OrderList myOrders = new OrderList(userID);
-                    myOrders.addOrder(newOrder);
-                    myCart.emptyCart();
-                    BrowseWindow buyerWindow = new BrowseWindow(userID);
-                } catch (Exception e2) { 
-                    e2.printStackTrace(); }
-     
-                checkoutWindow.dispose();
+        	try {
+				PaymentWindow pay= new PaymentWindow(userID);                
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+ 
+            checkoutWindow.dispose();
         	
         });
         checkoutWindow.add(confirmButton);

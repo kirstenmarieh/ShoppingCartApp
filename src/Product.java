@@ -16,6 +16,9 @@ public class Product implements Serializable {
     private int quantitySold;
     private int quantityInvoiced;
     
+    
+    public Product() {};
+    
     /** 
      * Product constructor.
      * @param name Name of new Product

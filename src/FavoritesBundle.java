@@ -44,6 +44,10 @@ public class FavoritesBundle extends Product{
         return price;
     }
 
+    
+    
+    
+
     /**
      * returns the number of one unique discounted products available.
      * @return 1, the number of that bundle that exist.
@@ -53,6 +57,7 @@ public class FavoritesBundle extends Product{
         return 1;
     }
 
+    
     /**
      * creates the name of the product bundle.
      * @return bundleName, the aggregated name of the products.
@@ -134,12 +139,12 @@ public class FavoritesBundle extends Product{
      * @return true if successful, false otherwise
      * */
     @Override
-    public void sell(int amount) {
+    public boolean sell(int amount) {
         for (Product p : products)
         {
-            quantitySold+=amount;
-            availableQuantity-=amount;
+            p.sell(amount);
         }
+        return true;
     }
 
     /**Returns the quantity of this product that has been sold
