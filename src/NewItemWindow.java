@@ -17,8 +17,6 @@ public class NewItemWindow extends JFrame{
         final JFrame frame = new JFrame("New Listing");
         frame.setBounds(100,100,800,575);
 
-        //JButton backButton = new JButton("Back");
-
         JLabel titleLabel = new JLabel("New Listing");
         frame.add(titleLabel, BorderLayout.NORTH);
 
@@ -66,7 +64,6 @@ public class NewItemWindow extends JFrame{
         JButton submitButton = new JButton("Submit");
 
         SellerInventory inventory = new SellerInventory(sellerid);
-        //System.out.println(inventory.getCosts());
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -82,7 +79,6 @@ public class NewItemWindow extends JFrame{
                     {
                         if (p.getProductID().equals(newProduct.getProductID()))
                         {
-                            System.out.println("here");
                             int quantity = p.getAvailableQuantity() + newProduct.getAvailableQuantity();
                             spl.updateAvailableQuantity(p.getProductID(), quantity);
                             inventory.updateQuantity(p.getProductID(), quantity);
@@ -106,14 +102,12 @@ public class NewItemWindow extends JFrame{
                     classNotFoundException.printStackTrace();
                 }
             }
-
         });
 
         frame.add(submitButton, BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
     private String sellerid;
     final SellerFinancialView sView;
 }
