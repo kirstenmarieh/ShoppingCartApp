@@ -71,23 +71,24 @@ public class PaymentWindow {
                         //si.sellQuantity(myCartContents.get(k).getProductID(), 1);
                         
                         
-                        try {
-                            Order newOrder = new Order(myCart);
-                            OrderList myOrders = new OrderList(userID);
-                            myOrders.addOrder(newOrder);
-                            SingletonProductList singleton = SingletonProductList.getInstance();
-                            
-                            for (Product p : myCart.getCartContents())
-                            {
-                                singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
-                            }
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        } catch (ClassNotFoundException classNotFoundException) {
-                            classNotFoundException.printStackTrace();
-                        } catch (Exception e2) {
-                            e2.printStackTrace();
+                        
+                    }
+                    try {
+                        Order newOrder = new Order(myCart);
+                        OrderList myOrders = new OrderList(userID);
+                        myOrders.addOrder(newOrder);
+                        SingletonProductList singleton = SingletonProductList.getInstance();
+                        
+                        for (Product p : myCart.getCartContents())
+                        {
+                            singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
                         }
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
