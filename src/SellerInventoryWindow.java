@@ -5,6 +5,10 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * constructs and displays a seller inventory window, where a seller can view their inventory
+ * and financial details.
+ */
 public class SellerInventoryWindow extends JFrame{
 
     public SellerInventoryWindow(String SellerID) throws IOException, ClassNotFoundException {
@@ -21,8 +25,6 @@ public class SellerInventoryWindow extends JFrame{
         final JFrame frame = new JFrame("Inventory");
         frame.setBounds(100, 100, 800, 550);
 
-        //ProductPanel pPanel = new ProductPanel(sellerid);
-
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setLayout(new FlowLayout());
 
@@ -32,15 +34,9 @@ public class SellerInventoryWindow extends JFrame{
         JLabel inventoryLabel = new JLabel("Current Inventory");
         frame.add(inventoryLabel);
 
-        //ProductPanel pPanel = new ProductPanel(sellerid);
-
         JPanel productPanel = new JPanel(); //where other panels will go
         productPanel.setSize(475, 300);
         productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
-
-        //JLabel inventoryLabel = new JLabel("Current Inventory");
-
-        //productPanel.add(inventoryLabel);
 
         myInventory.calculateProfits();
         myInventory.calculateRevenue();
@@ -144,7 +140,6 @@ public class SellerInventoryWindow extends JFrame{
 
         frame.getContentPane().add(productPane);
         frame.getContentPane().add(newFV);
-
 
         JButton updateButton = new JButton("update");
         updateButton.addActionListener(new ActionListener() {
