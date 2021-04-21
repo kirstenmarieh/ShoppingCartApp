@@ -3,18 +3,19 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * constructs and displays a product pop up window with more in depth information about the product.
+ */
 public class ProductPopupWindow {
 	public ProductPopupWindow(Product p) {
 		final JFrame window = new JFrame("Popup");
 		
 		JPanel panel1= new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-		
-		
+
 		JLabel name= new JLabel(p.getProductName());
 		panel1.add(name);
-		
-		
+
 		JLabel desc= new JLabel("Product description: "+p.getProductDescription());
 		panel1.add(desc);
 		
