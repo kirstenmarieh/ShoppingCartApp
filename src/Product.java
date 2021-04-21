@@ -2,6 +2,7 @@ import java.io.Serializable;
 
 
 /**
+ * @author James Jenson
  * The Product class stores data on a single product. Name, seller ID, quantity, etc.
  * */
 public class Product implements Serializable {

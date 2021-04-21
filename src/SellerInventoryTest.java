@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.io.IOException;
 import org.junit.Assert;
 
+/**
+ * @author Kirsten Hernquist
+ */
 class SellerInventoryTest {
 
     @Test

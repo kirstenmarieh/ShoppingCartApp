@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 /**
+ * @author Kirsten Hernquist
  * a class that constructs and updates the seller financial information.
  */
 public class SellerFinancialView extends JPanel implements ChangeListener {

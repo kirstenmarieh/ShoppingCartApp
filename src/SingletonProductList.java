@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * @author Kirsten Hernquist
  * creates and manipulates a singleton object.
  */
 public class SingletonProductList implements Serializable {

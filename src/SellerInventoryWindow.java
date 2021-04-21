@@ -8,6 +8,7 @@ import java.util.ArrayList;
 /**
  * constructs and displays a seller inventory window, where a seller can view their inventory
  * and financial details.
+ * @author Kirsten Hernquist
  */
 public class SellerInventoryWindow extends JFrame{
 

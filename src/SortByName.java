@@ -1,6 +1,7 @@
 import java.util.Comparator;
 
 /**
+ * @author Kirsten Hernquist
  * a class to sort products by name in alphabetical order.
  */
 public class SortByName implements SortStrategy {

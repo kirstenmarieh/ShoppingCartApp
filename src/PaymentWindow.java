@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * @author Kirsten Hernquist, James Jenson, Jared Usher
  * Constructs and displays a payment window for the user to enter payment information.
  */
 public class PaymentWindow {

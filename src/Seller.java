@@ -1,4 +1,5 @@
 /**
+ * @author James Jenson
  * a class that constructs a seller.
  */
 public class Seller {

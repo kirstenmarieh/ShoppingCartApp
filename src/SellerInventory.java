@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 
 /**
+ * @author Kirsten Hernquist, James Jenson
  * a class that constructs and manipulates a seller's inventory.
  */
 public class SellerInventory implements Serializable {

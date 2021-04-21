@@ -3,6 +3,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * @author Kirsten Hernquist
+ */
 import static org.junit.jupiter.api.Assertions.*;
 
 class SortByNameTest {

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ * @author James Jenson, Jared Usher, Kirsten Hernquist
  * a class that constructs an instance of and manipulates a shopping cart object.
  */
 public class ShoppingCart implements Serializable{

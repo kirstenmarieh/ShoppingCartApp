@@ -6,6 +6,9 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Kirsten Hernquist
+ */
 class SortByPriceTest {
 
     @Test

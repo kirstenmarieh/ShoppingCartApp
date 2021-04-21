@@ -8,7 +8,9 @@ import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 
-
+/**
+ * @author Jared Usher
+ */
 public class OrderWindow
 {
     /**

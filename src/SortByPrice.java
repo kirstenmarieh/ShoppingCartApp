@@ -1,6 +1,7 @@
 import java.util.Comparator;
 
 /**
+ * @author Kirsten Hernquist
  * a class that implements the sorting of products by price.
  */
 public class SortByPrice implements SortStrategy {

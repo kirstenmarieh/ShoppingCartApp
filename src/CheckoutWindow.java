@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * @author Kirsten Hernquist, Jared Usher, James Jenson
+ * @author James Jenson, Jared Usher, Kirsten Hernquist
  * constructs and displays a checkout window.
  */
 public class CheckoutWindow {

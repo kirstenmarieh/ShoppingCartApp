@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
+ * @author James Jenson
  * constructs and displays a product pop up window with more in depth information about the product.
  */
 public class ProductPopupWindow {

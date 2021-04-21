@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 /**
+ * @author JamesJenson
  *a class that constructs and populates a user database.
  */
 public class UserDB {

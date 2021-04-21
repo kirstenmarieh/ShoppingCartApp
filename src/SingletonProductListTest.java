@@ -3,6 +3,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Assert;
 
+/**
+ * @author Kirsten Hernquist
+ */
 class SingletonProductListTest {
 
     @Test
