@@ -62,7 +62,7 @@ public class SingletonProductList implements Serializable {
     public void updateAvailableQuantity(String productID, int count) throws IOException {
         if (count < 0)
         {
-            thrown new InvalidParameterException("Quantity must be greater than or equal to 0.");
+            //thrown new InvalidParameterException("Quantity must be greater than or equal to 0.");
         }
         for (Product p : productList) {
 
