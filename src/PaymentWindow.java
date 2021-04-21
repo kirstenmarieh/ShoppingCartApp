@@ -60,16 +60,22 @@ public class PaymentWindow {
             public void actionPerformed(ActionEvent e) {
                 try {
 
-                	System.out.println("Mycartcontents size: "+myCart.getCartContents().size());
+                	System.out.println("Mycartcontents size: "+ myCart.getCartContents().size());
+                        
                     for (int k = 0; k < myCartContents.size(); k++)
                     {
+                        
                         SingletonProductList si = SingletonProductList.getInstance();
+                      
                         si.sellQuantity(myCartContents.get(k).getProductID(), 1);
+                        
+                        
                         try {
                             Order newOrder = new Order(myCart);
                             OrderList myOrders = new OrderList(userID);
                             myOrders.addOrder(newOrder);
                             SingletonProductList singleton = SingletonProductList.getInstance();
+                            
                             for (Product p : myCart.getCartContents())
                             {
                                 singleton.updateAvailableQuantity(p.getProductID(), p.getAvailableQuantity()- myCart.getQuantity(p));
@@ -78,8 +84,6 @@ public class PaymentWindow {
                             ioException.printStackTrace();
                         } catch (ClassNotFoundException classNotFoundException) {
                             classNotFoundException.printStackTrace();
-                            myCart.emptyCart();
-                            BrowseWindow buyerWindow = new BrowseWindow(userID);
                         } catch (Exception e2) {
                             e2.printStackTrace();
                         }
@@ -89,7 +93,13 @@ public class PaymentWindow {
                 } catch (ClassNotFoundException classNotFoundException) {
                     classNotFoundException.printStackTrace();
                 }
+                
+                try {
+                myCart.emptyCart();
+                BrowseWindow buyerWindow = new BrowseWindow(userID);
                 paymentWindow.dispose();
+                }
+                catch (Exception e3) { e3.printStackTrace();}
             }});
 
         JButton cancel = new JButton("Cancel");

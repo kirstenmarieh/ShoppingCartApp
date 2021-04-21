@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * a class that constructs an instance of and manipulates a shopping cart object.
@@ -52,12 +53,14 @@ public class ShoppingCart implements Serializable{
     }
 
     /**
-     * adds an item to the cart.
+     * adds an item to the cart then sorts the cart by name to group the 
+	 * same items together within the list
      * @param p the product to add to the cart.
      * @throws IOException
      */
     public void addItem(Product p) throws IOException {
         cartContents.add(p);
+		Collections.sort(cartContents, sortByName.productSearch());
         saveCart();
     }
 

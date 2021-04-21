@@ -61,7 +61,9 @@ public class CheckoutWindow {
         columnPanel.setLayout(new GridLayout(0, 1, 0, 1));
         columnPanel.setBackground(Color.gray);
 
-        for (int i = 0; i < myCartContents.size(); i++) {
+        int CartSize = myCartContents.size();
+        
+        for (int i = 0; i < CartSize; i++) {
             JPanel rowPanel = new JPanel();
             rowPanel.setPreferredSize(new Dimension(300, 200));
             columnPanel.add(rowPanel);
@@ -86,14 +88,26 @@ public class CheckoutWindow {
             });
             rowPanel.add(addProductButton);
 
-            JButton subtractProductButton = new JButton("-");
+            J            JButton subtractProductButton = new JButton("-");
             subtractProductButton.setBounds(675, 100, 25, 25);
-            rowPanel.add(subtractProductButton);
             final int k = i;
             subtractProductButton.addActionListener(e -> {
+                try {
+                    //System.out.println("REMOVING NUMBER" + " " + myCart.getQuantity(myCartContents.get(k)));
+                    if (myCart.getQuantity(myCartContents.get(k)) > 1)
+                    {
+                        myCart.removeItem(myCartContents.get(k));
+                        //System.out.println("REMOVED PRODUCT");
+                        int currentQuantity = myCart.getQuantity(myCartContents.get(k));
+                        productQuantity.setText("In Cart: " + String.valueOf(currentQuantity--));
+                        //System.out.println("REMAINING NUMBER" + " " + myCart.getQuantity(myCartContents.get(k)) + "\n");
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
 
             });
-            rowPanel.add(addProductButton);
+            rowPanel.add(subtractProductButton);
 
             // JLabel For Price
             JLabel productPrice = new JLabel("Price : $" + String.valueOf(myCartContents.get(i).getSellPrice()));//productList.get(i).getPrice()));
@@ -105,6 +119,11 @@ public class CheckoutWindow {
             JLabel productName = new JLabel("<html>" + myCartContents.get(i).getProductName() + "</html>");//productList.get(i).getProductDescription()
             productName.setBounds(50, 40, 500, 200);
             rowPanel.add(productName);
+			
+			 if (myCart.getQuantity(myCartContents.get(i)) > 1)
+            {
+                i += myCart.getQuantity(myCartContents.get(i)) - 1;
+            }
         }
 
         JButton confirmButton = new JButton("Confirm");
