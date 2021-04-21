@@ -54,16 +54,24 @@ public class ShoppingCart implements Serializable{
     }
 
     /**
-     * adds an item to the cart then sorts the cart by name to group the 
-	 * same items together within the list
+     * adds an item to the cart then sorts the cart by name to group the
+     * same items together within the list
      * @param p the product to add to the cart.
      * @throws IOException
      */
-    public void addItem(Product p) throws IOException {
-        cartContents.add(p);
-		Collections.sort(cartContents, sortByName.productSearch());
+    public void addItem(Product p) throws IOException, ClassNotFoundException {
+        SortByName sortByName = new SortByName();
+        Collections.sort(cartContents, sortByName.productSearch());
+
+        int m = this.getQuantity(p);
+        //check if in cart will exceed available amount
+        if (p.getAvailableQuantity() > m)
+        {
+            cartContents.add(p);
+        }
         saveCart();
     }
+
 
     /**
      * gets the contents of the cart.
