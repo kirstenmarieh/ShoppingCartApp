@@ -56,7 +56,7 @@ public class FavoritesWindow extends JFrame{
                         myBundle.add(p);
                     }
                     Product d = new DiscountedProduct(myBundle.getProductName(), myBundle.getProductID(), myBundle.getType(), myBundle.getSellPrice(),
-                            myBundle.getProductDescription(), myBundle.getAvailableQuantity(), myBundle.getInvoicePrice(), myBundle.getSellerID());
+                            myBundle.getProductDescription(), myBundle.getAvailableQuantity(), myBundle.getInvoicePrice(), myBundle.getSellerID(),myBundle);
                     myCart.addItem(d);
 
 

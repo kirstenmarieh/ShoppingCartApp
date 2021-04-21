@@ -24,8 +24,9 @@ public class DiscountedProduct extends Product{
      * @param invPrice the invoice price of the item.
      * @param sellerId the sellerid associated with an item.
      */
-    public DiscountedProduct(String name, String productID, String prodType, double salePrice, String desc, int available, double invPrice, String sellerId){//roduct p) {
+    public DiscountedProduct(String name, String productID, String prodType, double salePrice, String desc, int available, double invPrice, String sellerId, Product product){//roduct p) {
         super(name, productID, prodType, salePrice, desc, available, invPrice, sellerId);
+        this.product=product;
     }
 
     /**
@@ -106,13 +107,14 @@ public class DiscountedProduct extends Product{
      */
     @Override
     public boolean sell(int amount) {
-        for (Product p : products)
-        {
-            if(amount<0) return false;
-            if(availableQuantity<amount) return false;
-            quantitySold+=amount;
-            availableQuantity-=amount;
-        }
+        System.out.println("DiscountSell: "+ products.size());
+    	//for (Product p : products)
+        //{
+            //if(amount<0) return false;
+           // if(availableQuantity<amount) return false;
+            System.out.println("check1: "+ productid);
+            product.sell(amount);
+        //}
         return true;
     }
 
@@ -132,9 +134,9 @@ public class DiscountedProduct extends Product{
         return 1;
     }
 
-    private ArrayList<Product> faveList = new ArrayList<>();
+    private ArrayList<Product> faveList = new ArrayList<Product>();
     private String userid;
-    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<Product>();
     private int quantitySold;
     private int availableQuantity;
     private Product product;

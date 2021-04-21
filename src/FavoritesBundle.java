@@ -141,10 +141,22 @@ public class FavoritesBundle extends Product{
      * */
     @Override
     public boolean sell(int amount) {
-        for (Product p : products)
-        {
-            p.sell(amount);
-        }
+    	System.out.println("CompositeSell: "+ getProductID());
+    	try {
+			SingletonProductList list= SingletonProductList.getInstance();
+			for (Product p : products)
+	        {
+	            //p.sell(amount);
+	    		list.sellQuantity(p.getProductID(), 1);
+	        }
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
         return true;
     }
 

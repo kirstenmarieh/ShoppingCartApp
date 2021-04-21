@@ -84,7 +84,10 @@ public class CheckoutWindow {
                     productQuantity.setText("In Cart: " + String.valueOf(currentQuantity++));
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
-                }
+                } catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
             });
             rowPanel.add(addProductButton);

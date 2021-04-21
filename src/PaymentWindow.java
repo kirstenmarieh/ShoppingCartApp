@@ -67,8 +67,8 @@ public class PaymentWindow {
                     {
                         
                         SingletonProductList si = SingletonProductList.getInstance();
-                      
-                        si.sellQuantity(myCartContents.get(k).getProductID(), 1);
+                        myCartContents.get(k).sell(1);
+                        //si.sellQuantity(myCartContents.get(k).getProductID(), 1);
                         
                         
                         try {
