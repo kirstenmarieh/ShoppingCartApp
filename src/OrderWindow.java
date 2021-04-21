@@ -74,11 +74,18 @@ public class OrderWindow
          * Creating A JPanel TO Display The Information For Each One
          */
         for (int i = 0; i < myOrderList.size(); i++)
-        { 
+        {          
             ArrayList<Product> orderProducts = myOrderList.get(i).getOrderProducts();
             
             JPanel rowPanel = new JPanel();
-            rowPanel.setPreferredSize(new Dimension(300, 60 * (orderProducts.size())));
+            if (orderProducts.size() == 1)
+            {
+                rowPanel.setPreferredSize(new Dimension(300, 60 * 3));
+            }
+            else
+            {
+                rowPanel.setPreferredSize(new Dimension(300, 60 * (orderProducts.size())));
+            }
             columnPanel.add(rowPanel);
             rowPanel.setLayout(null);
             

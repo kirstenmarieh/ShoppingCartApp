@@ -21,6 +21,7 @@ public class OrderList
      * @throws IOException 
      */
     public void addOrder(Order o) throws IOException {
+        try {this.getOrders(); } catch(Exception e) { }
         orders.add(o);
         this.saveOrderList();
     }
