@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+/**
+ * @author Kirsten Hernquist
+ */
 public class DiscountedProduct extends Product{
     private String productName;
     private String productid;

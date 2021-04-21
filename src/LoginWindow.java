@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.IOException;
 
 /**
+ * @author James Jenson
  * constructs and displays a login window.
  */
 public class LoginWindow{

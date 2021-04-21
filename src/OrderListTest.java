@@ -8,6 +8,7 @@ import java.util.*;
 public class OrderListTest 
 {   
     /**
+     * @author Jared Usher
      * Test of addOrder method, of class OrderList.
      */
     @Test

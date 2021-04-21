@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
+ * @author Kirsten Hernquist
  * a class that constructs and manipulates a favorites list of a user.
  */
 public class FavoritesList implements Serializable {

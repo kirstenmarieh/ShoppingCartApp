@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * @author Kirsten Hernquist
  * constructs and manipulates a bundled product from the buyer's favorites list.
  */
 public class FavoritesBundle extends Product{

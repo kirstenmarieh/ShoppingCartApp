@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 /**
  * The Order Class Stores All Orders Of A User
+ * @author Jared Usher
  */
 public class OrderList 
 {   

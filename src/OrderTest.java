@@ -9,6 +9,7 @@ public class OrderTest
 {
     /**
      * Test of getOrderProducts method, of class Order.
+     * @author Jared Usher
      */
     @Test
     public void testGetOrderProducts() throws Exception 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * constructs and displays a window for a seller to add a new item.
+ * @author Kirsten Hernquist
  */
 public class NewItemWindow extends JFrame{
 

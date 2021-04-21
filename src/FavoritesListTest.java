@@ -3,6 +3,9 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Kirsten Hernquist
+ */
 class FavoritesListTest {
 
     @org.junit.jupiter.api.Test

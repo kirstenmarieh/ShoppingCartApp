@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * @author James Jenson
  * a class that creates a user of type buyer.
  */
 public class Buyer implements Serializable{

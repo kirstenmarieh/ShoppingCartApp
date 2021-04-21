@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
+ * @author Jared User, James Jenson, Kirsten Hernquist
  * constructs a window for displaying a buyers favorite items, allows functionality to add to cart,
  * and allows functionality to add all items on the list to the cart.
  */

@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import org.junit.Assert;
 
+/**
+ * @author Kirsten Hernquist
+ */
 class DiscountedProductTest {
 
     @Test

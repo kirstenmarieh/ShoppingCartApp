@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 /**
  * The Order Class Stores Data On Several Products And Total Price Of Them
+ * @author Jared Usher
  */
 public class Order implements Serializable {
     
