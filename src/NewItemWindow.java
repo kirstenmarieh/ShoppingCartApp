@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * constructs and displays a window for a seller to add a new item.
- * @author Kirsten Hernquist
+ * a class that constructs and displays a window for the seller to add new items to their inventory.
  */
 public class NewItemWindow extends JFrame{
 
@@ -17,6 +16,8 @@ public class NewItemWindow extends JFrame{
 
         final JFrame frame = new JFrame("New Listing");
         frame.setBounds(100,100,800,575);
+
+        //JButton backButton = new JButton("Back");
 
         JLabel titleLabel = new JLabel("New Listing");
         frame.add(titleLabel, BorderLayout.NORTH);
@@ -65,6 +66,7 @@ public class NewItemWindow extends JFrame{
         JButton submitButton = new JButton("Submit");
 
         SellerInventory inventory = new SellerInventory(sellerid);
+        //System.out.println(inventory.getCosts());
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -76,14 +78,26 @@ public class NewItemWindow extends JFrame{
                     int available = Integer.parseInt(availableField.getText());
                     Product newProduct = new Product(nameField.getText(), idField.getText(), typeField.getText(), salePrice, descField.getText(),
                             available, invPrice, sellerid);
+                    for(Product p : inventory.getInventory())
+                    {
+                        if (p.getProductID().equals(newProduct.getProductID()))
+                        {
+                            System.out.println("here");
+                            int quantity = p.getAvailableQuantity() + newProduct.getAvailableQuantity();
+                            spl.updateAvailableQuantity(p.getProductID(), quantity);
+                            inventory.updateQuantity(p.getProductID(), quantity);
+                            spl.saveList(spl.getList(sellerid));
+                            SellerInventoryWindow newWindow = new SellerInventoryWindow(sellerid);
+                            break;
+                        }
 
+                    }
                     spl.add(newProduct);
                     spl.saveList(spl.getList(sellerid));
 
                     inventory.addChangeListener(sView);
                     inventory.calculateCosts();
-                    SellerInventoryWindow window = new SellerInventoryWindow(sellerid);
-                    
+                    SellerInventoryWindow newWindow = new SellerInventoryWindow(sellerid);
                     frame.dispose();
 
                 } catch (IOException ioException) {
@@ -92,6 +106,7 @@ public class NewItemWindow extends JFrame{
                     classNotFoundException.printStackTrace();
                 }
             }
+
         });
 
         frame.add(submitButton, BorderLayout.SOUTH);

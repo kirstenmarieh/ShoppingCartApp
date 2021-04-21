@@ -21,13 +21,7 @@ public class BrowseWindow
         this.myFaveList = myFavorites.getFaves();
         this.myCartContents = myCart.getCartContents();
 
-        /*for(Product p : myCartContents)
-        {
-            System.out.println("cart: " + p.getProductName());
-        }*/
         myCart.calculateTotalPrice();
-        //System.out.println("tot price: " + myCart.getTotalPrice());
-
         final JFrame browseWindow = new JFrame("Browse Products");
         browseWindow.setBounds(100, 100, 800, 550);
         browseWindow.setLayout(null);

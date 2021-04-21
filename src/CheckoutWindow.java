@@ -94,15 +94,15 @@ public class CheckoutWindow {
             final int k = i;
             subtractProductButton.addActionListener(e -> {
                 try {
-                    //System.out.println("REMOVING NUMBER" + " " + myCart.getQuantity(myCartContents.get(k)));
                     if (myCart.getQuantity(myCartContents.get(k)) > 1)
                     {
                         myCart.removeItem(myCartContents.get(k));
-                        //System.out.println("REMOVED PRODUCT");
                         int currentQuantity = myCart.getQuantity(myCartContents.get(k));
                         productQuantity.setText("In Cart: " + String.valueOf(currentQuantity--));
-                        //System.out.println("REMAINING NUMBER" + " " + myCart.getQuantity(myCartContents.get(k)) + "\n");
+                        myCart.calculateTotalPrice();
+                        cartTotal.setText("Total: $" + myCart.getTotalPrice());
                     }
+
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
