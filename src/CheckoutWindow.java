@@ -89,7 +89,7 @@ public class CheckoutWindow {
             });
             rowPanel.add(addProductButton);
 
-            J            JButton subtractProductButton = new JButton("-");
+            JButton subtractProductButton = new JButton("-");
             subtractProductButton.setBounds(675, 100, 25, 25);
             final int k = i;
             subtractProductButton.addActionListener(e -> {
