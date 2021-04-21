@@ -29,7 +29,7 @@ public class ShoppingCart implements Serializable{
         int count = 0;
         for (Product i : cartContents)
         {
-            if (i.getProductID() == p.getProductID())
+            if (i.getProductID().equals(p.getProductID()))
             {
                 count++;
             }
@@ -142,6 +142,7 @@ public class ShoppingCart implements Serializable{
     }
 
     private double totalPrice;
+	SortByName sortByName = new SortByName();
     private String userid;
     private ArrayList<Product> cartContents = new ArrayList<>();
 }
