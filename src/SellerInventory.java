@@ -9,25 +9,30 @@ import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 
-
+/**
+ * a class that constructs and manipulates a seller's inventory.
+ */
 public class SellerInventory implements Serializable {
 
+    /**
+     * constructs a seller's inventory and calculates the financials of the seller.
+     * @param mySellerID the id of the seller
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public SellerInventory(String mySellerID) throws IOException, ClassNotFoundException {
-        // addObserver(s);
         this.sellerID = mySellerID;
         this.singleton = SingletonProductList.getInstance();
         this.inventory = singleton.getList(sellerID);
-        // System.out.println("from inventory: ");
-        for(Product p: inventory)
-        {
-            System.out.println(p.getProductName()+ " " + p.getAvailableQuantity());
-        }
         listeners = new ArrayList<>();
         this.calculateCosts();
         this.calculateRevenue();
         this.calculateProfits();
     }
 
+    /**
+     * calculates the revenue of the seller.
+     */
     public void calculateRevenue() {
         revenue=0;
         
@@ -39,6 +44,9 @@ public class SellerInventory implements Serializable {
         calculateProfits();
     }
 
+    /**
+     * calculates the costs incurred by the seller.
+     */
     public void calculateCosts() {
 
         costs=0;
@@ -53,49 +61,43 @@ public class SellerInventory implements Serializable {
         calculateProfits();
     }
 
-    /*public void calculateCosts() {
-       // System.out.println("from costs: ");
-       // for (Product p : inventory)
-        //{
-         //   System.out.println(p.getProductName() + " " + p.getAvailableQuantity());
-        //}
-
-        inventory.forEach(Product->this.costs = costs + (Product.getInvoicePrice()) * Product.getAvailableQuantity());
-       // System.out.println("costs : " + costs);
-        ChangeEvent event = new ChangeEvent(this);
-
-        System.out.println(listeners.size());
-        for(SellerFinancialView n : listeners)
-        {
-            n.stateChanged(event);
-        }
-    }*/
-
-
-    /*public void calculateRevenue() throws IOException {
-        revenue=0;
-
-        ArrayList<Product> mine = new ArrayList<>();
-        mine = this.getSoldItems(sellerID);
-        soldItems.forEach(Product-> this.revenue = revenue + (Product.getSellPrice()*this.getNumberSold(Product)));
-    }*/
-
+    /**calculates the profits earned by the seller.
+     *
+     */
     public void calculateProfits() {
         this.profit = this.revenue - this.costs;
     }
 
+    /**
+     * gets the costs incurred by the seller.
+     * @return costs
+     */
     public double getCosts() {
         return costs;
     }
 
+    /**
+     * gets the profits made by the seller.
+     * @return profit
+     */
     public double getProfit() {
         return profit;
     }
 
+    /**
+     * gets the revenue made by the seller.
+     * @return revenue
+     */
     public double getRevenue() {
         return revenue;
     }
 
+    /**
+     * gets the inventory of the seller
+     * @return ArrayList of the inventory
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public ArrayList<Product> getInventory() throws IOException, ClassNotFoundException { //or return sellerInventory object?
         SingletonProductList pList = SingletonProductList.getInstance();
         ArrayList<Product> myStuff = new ArrayList<>();
@@ -103,40 +105,13 @@ public class SellerInventory implements Serializable {
         return myStuff;
     }
 
-    public ArrayList<Product> getSoldItems(String sellerid) throws IOException {
-
-        try {
-            String fileName = this.sellerID + "soldItems.txt";
-            File file = new File(fileName);
-            if (file.exists())
-            {
-                FileInputStream fis = new FileInputStream(fileName);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                this.soldItems = (ArrayList<Product>) ois.readObject();
-            }
-            else
-            {
-                file.createNewFile();
-            }
-        }
-        catch(IOException | ClassNotFoundException e)
-        {
-            System.out.println("No items sold.");
-        }
-
-        return soldItems;
-    }
-
-    public void saveSoldItems() throws IOException {
-        String fileName = this.sellerID + "soldItems.txt";
-        FileOutputStream fos = new FileOutputStream(fileName);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this.soldItems);
-        oos.flush();
-        oos.close();
-        fos.close();
-    }
-
+    /**
+     * updates the quantity of an item in the seller's inventory
+     * @param productID the id of the product to locate
+     * @param count the quantity to update the item as having
+     * @precondition: the product must exist in the inventory.
+     * @postcondition: the available quantity of the product is updated accordingly.
+     */
     public void updateQuantity(String productID, int count){
 
         for (Product p : this.inventory)
@@ -146,10 +121,8 @@ public class SellerInventory implements Serializable {
                 int currentQuantity = p.getAvailableQuantity();
                 if (count < 0)
                 {
-
                     p.setAvailableQuantity(currentQuantity--);
                     System.out.println(p.getAvailableQuantity());
-
                 }
 
                 else{
@@ -157,26 +130,12 @@ public class SellerInventory implements Serializable {
                 }
             }
         }
-
     }
 
-    public void addSoldItem(Product p) throws IOException {
-        soldItems.add(p);
-        this.saveSoldItems();
-    }
-
-    public int getNumberSold(Product p){
-        int count = 0;
-        for (Product i : soldItems)
-        {
-            if (i.getProductID() == p.getProductID())
-            {
-                count++;
-            }
-        }
-        return count;
-    }
-
+    /**
+     * adds a changelistener to the list.
+     * @param sfv the sellerfinancialview to add as a listener.
+     */
     public void addChangeListener(SellerFinancialView sfv) { //SellerFinancialView sfv (add jpanel)
         listeners.add(sfv);
     }
